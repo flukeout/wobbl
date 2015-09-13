@@ -1,0 +1,315 @@
+@import "variables.less";
+
+body, html {
+  background-image: linear-gradient(rgb(51, 170, 255) 30%, rgb(51, 255, 238) 75%);
+  margin: 0;
+}
+
+.shape {
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+.image {
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  position: relative;
+  margin-top: 20px;
+  box-shadow: 0px 2px 2px rgba(0,0,0,.1);
+}
+
+.image-editor .image {
+  cursor: pointer;
+}
+
+.selected {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+
+  .ui-resizable-handle {
+    content: "";
+    position:absolute;
+    bottom: -10px;
+    right: -10px;
+    background: white;
+    height: 30px;
+    border-radius: 100%;
+    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+    width: 30px;
+  }
+
+  &:before {
+    content: "";
+    background: rgba(100,183,238,.5) !important;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+  }
+}
+
+.image-editor .shape:hover {
+  &:before {
+    content: "";
+    background: rgba(100,183,238,.25);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+  }
+}
+
+.shape-ui {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+
+  .outline {
+    border: dotted 2px white;
+    background: rgba(255,255,255,.4);
+  }
+
+}
+
+.animation-ui {
+  position: fixed;
+  right: 90px;
+  top: 20px;
+
+  .outline {
+    background: white;
+    transition: opacity .1s ease-out;
+  }
+}
+
+.outline {
+  height: 40px;
+  width: 40px;
+  box-sizing: border-box;
+
+  margin-bottom: 20px;
+  cursor: pointer;
+  opacity: .4;
+
+  &:hover {
+    opacity: .6;
+  }
+
+  &.selected-outline {
+    opacity: 1;
+  }
+
+
+}
+
+
+[animation=wobble] {
+  animation-name: wobble;
+  animation-duration:  .2s;
+  animation-iteration-count: infinite;
+}
+
+
+[animation=googly] {
+  animation-name: googly;
+  animation-duration:  .2s;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+}
+
+
+@keyframes googly {
+    0% {
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes wobble {
+    0% {
+        transform: rotate(0);
+    }
+    25%{
+        transform: rotate(-2deg);
+    }
+    75%{
+        transform: rotate(2deg);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+[animation=eyebrows] {
+    animation-name: eyebrows;
+    animation-duration:  .2s;
+    animation-iteration-count: infinite;
+    transform-origin: bottom;
+}
+
+@keyframes eyebrows {
+    0% {
+        transform: scaleY(.9);
+    }
+    50%{
+        transform: scaleY(1.1);
+    }
+    100% {
+        transform: scaleY(.9);
+    }
+}
+
+[outline=square] {
+  border-radius: 0;
+}
+
+[outline=circle] {
+  border-radius: 100%;
+}
+
+[outline=semi-bottom] {
+  border-radius: ~"calc(100% + 1px)" 100% 0 0 ;
+}
+
+[outline=semi-top] {
+  border-radius: 0 0 100% 100%;
+}
+
+
+[animation=nonono] {
+  animation-name: nonono;
+  animation-duration:  .3s;
+  animation-iteration-count: infinite;
+  transform-origin: top;
+}
+
+@keyframes nonono {
+    0% {
+        transform: rotate(0);
+    }
+    25%{
+        transform: rotate(4deg);
+    }
+
+    75%{
+        transform: rotate(-4deg);
+    }
+    100% {
+        transform: rotate(0);
+    }
+}
+
+[animation=vibrate] {
+    animation-name: vibrate;
+    animation-duration:  .07s;
+    animation-iteration-count: infinite;
+    transform-origin: bottom;
+}
+
+@keyframes vibrate {
+    0% {
+        transform: rotate(0) translateY(2px);
+    }
+    25%{
+        transform: rotate(1deg) translateX(-2px);
+    }
+    50%{
+        transform: rotate(0deg) translateX(2px);
+    }
+    75%{
+        transform: rotate(-2deg);
+    }
+    100% {
+        transform: rotate(0) translateY(-2px);
+    }
+}
+
+[animation=spin] {
+    animation-name: spin;
+    animation-duration:  .5s;
+    animation-iteration-count: infinite;
+    transform-origin: center;
+    animation-timing-function: linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+[animation=mouth] {
+  animation-name: mouth;
+  animation-duration:  .3s;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+}
+
+@keyframes mouth {
+  0% {
+    transform: scaleY(.9);
+  }
+  50%{
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(.9);
+  }
+}
+
+.remove-shape {
+  animation-name: removeShape;
+  animation-duration:  .3s;
+  animation-iteration-count: 1;
+  transform-origin: center;
+  transform: scale(0);
+}
+
+@keyframes removeShape {
+    0% {
+        transform: scale(1);
+    }
+    20%{
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.share-ui {
+  margin-top: 20px;
+}
+
+.share {
+  display: block;
+  width: 200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 15px 0;
+  // background: green;
+  border-radius: 2px;
+  font-size: 20px;
+  // box-shadow: 0px 2px 1px rgba(0,0,0,.2);
+  text-decoration: none;
+  color: white;
+  font-family: "Helvetica Neue";
+  border: solid 2px white;
+  border-radius: 30px;
+
+  &:hover {
+    background: rgba(255,255,255,.1);
+  }
+
+}

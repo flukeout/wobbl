@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <link rel="stylesheet/less" href="style.less" type="text/css">
+
+    <script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery.ui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="hammer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery.hammer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="hashids.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+    <script src="shared.js" type="text/javascript" charset="utf-8"></script>
+    <script src="app.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+      less = {
+        env: "development",
+        async: false,
+        fileAsync: false,
+        poll: 1000,
+        functions: {},
+        dumpLineNumbers: "comments",
+        relativeUrls: false,
+        rootpath: ":/a.com/"
+      };
+    </script>
+    <script src="less.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper image-editor">
+      <div class="image"></div>
+
+      <div class="shape-ui options-ui">
+        <div class="outline" outline="square"></div>
+        <div class="outline" outline="circle"></div>
+        <div class="outline" outline="semi-top"></div>
+        <div class="outline" outline="semi-bottom"></div>
+      </div>
+
+      <div class="animation-ui options-ui">
+
+      </div>
+
+      <!--
+      <div class="image-source">
+        <input type="text" />
+        <a href="#" class="pick">Pick</a>
+      </div>
+        -->
+        <div class="share-ui">
+          <a class="share" href="#">SHARE!</a>
+          <a class="share-link" href="#"></a>
+        </div>
+
+    </div>
+  </body>
+</html>
