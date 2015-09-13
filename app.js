@@ -240,7 +240,7 @@ function savePic(){
     var facesRef = firebase.child("faces");
     facesRef.child(id).set(savedPic);
 
-    if(envrionment == "local") {
+    if(environment == "local") {
         var baseURL = "http://localhost:8080/";
     } else {
         var baseURL = "http://flukeout.github.io/wobbl/";
