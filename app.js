@@ -4,21 +4,27 @@ var startX, startY,endX, endY, shape;
 var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
 var animations = ["mouth","vibrate","wobble","googly","eyebrows","nonono"]; // "spin"
+var outlines = ["square","circle","semi-top","semi-right","semi-bottom","semi-left"];
 var imgURL = "aken4.gif";
 var selectedOutline = "square";
 var selectedAnimation = animations[0];
 var avgDelta; //Keeps track of how much the mouse moved when makgin a shape
+var environment;
 
 $(document).ready(function(){
 
     $(".share").on("click", function(){
         savePic();
+        return false;
     });
+
+    checkEnvironment();
 
     imageWidth = $(".image").width();
     imageHeight = $(".image").height();
 
     buildAnimationUI();
+    buildOutlineUI();
     changeImage(imgURL);
 
     $(".shape-ui [outline="+selectedOutline+"]").addClass("selected-outline");
@@ -34,8 +40,6 @@ $(document).ready(function(){
     $(".outline").on("click",function(e){
         $(this).closest(".options-ui").find(".selected-outline").removeClass("selected-outline");
         $(e.target).addClass("selected-outline");
-        toggleOutline(e.target);
-        selectedOutline = $(e.target).attr("outline");
     });
 
     $(".image").on("click",".shape",function(e){
@@ -53,7 +57,6 @@ $(document).ready(function(){
             $(".image").append(shape);
             updateShape();
         }
-
     });
 
     $(".image").on("mousemove",function(e){
@@ -74,7 +77,6 @@ $(document).ready(function(){
 
 });
 
-
 function buildAnimationUI() {
     for(var i = 0; i < animations.length; i++) {
         var newEl = $("<div class='outline'/>");
@@ -86,6 +88,19 @@ function buildAnimationUI() {
         });
     }
 }
+
+function buildOutlineUI() {
+    for(var i = 0; i < outlines.length; i++) {
+        var newEl = $("<div class='outline'/>");
+        $(".shape-ui").append(newEl);
+        newEl.attr("outline",outlines[i]);
+        newEl.on("click",function(){
+            selectedOutline = $(this).attr("outline");
+            $(".selected").attr("outline",selectedOutline);
+        });
+    }
+}
+
 
 //Draws the shape as you drag
 function updateShape(){
@@ -181,7 +196,6 @@ function clickShape(target){
 
     $(".selected-outline").removeClass("selected-outline");
 
-
     if(shape.hasClass("selected")) {
         var index = animations.indexOf(shape.attr("animation"));
         index++;
@@ -200,10 +214,6 @@ function clickShape(target){
 
 }
 
-function toggleOutline(target){
-    var outline = $(target);
-    $(".selected").attr("outline",outline.attr("outline"));
-}
 
 var firebase = new Firebase("https://facejam.firebaseio.com/");
 
@@ -230,6 +240,22 @@ function savePic(){
     var facesRef = firebase.child("faces");
     facesRef.child(id).set(savedPic);
 
-    var link = "http://localhost:8080/view.html?id=" + id;
-    $(".share-link").attr("href", link).text(link);
+    if(envrionment == "local") {
+        var baseURL = "http://localhost:8080/";
+    } else {
+        var baseURL = "http://flukeout.github.io/wobbl/";
+    }
+
+    var link = baseURL + "view.html?id=" + id;
+    $(".share-link").attr("href", link).text(link).show();
+}
+
+
+function checkEnvironment(){
+    var URL = window.location.href;
+    if(URL.indexOf("localhost") > -1) {
+        environment = "local";
+    } else {
+        environment = "production";
+    }
 }

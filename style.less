@@ -1,8 +1,12 @@
 @import "variables.less";
 
 body, html {
-  background-image: linear-gradient(rgb(51, 170, 255) 30%, rgb(51, 255, 238) 75%);
   margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: linear-gradient(rgb(51, 170, 255) 50%, rgb(51, 255, 238) 100%);
 }
 
 .shape {
@@ -174,12 +178,20 @@ body, html {
   border-radius: 100%;
 }
 
-[outline=semi-bottom] {
-  border-radius: ~"calc(100% + 1px)" 100% 0 0 ;
+[outline=semi-top] {
+  border-radius: 100% 100% 0 0 ;
 }
 
-[outline=semi-top] {
+[outline=semi-bottom] {
   border-radius: 0 0 100% 100%;
+}
+
+[outline=semi-right] {
+  border-radius: 0 100% 100% 0 ;
+}
+
+[outline=semi-left] {
+  border-radius: 100% 0 0 100% ;
 }
 
 
@@ -290,26 +302,63 @@ body, html {
 
 .share-ui {
   margin-top: 20px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-family: "Helvetica Neue";
+
+  .share-link {
+    color: inherit;
+    display: none;
+    text-decoration: none;
+
+    .showPop;
+  }
+}
+
+.showPop {
+  animation-name: showPop;
+  animation-duration:  .2s;
+  animation-iteration-count: 1;
+  transform-origin: center;
+  animation-easing-function: ease-out;
+}
+
+@keyframes showPop {
+  0% {
+    transform: scaleX(0) scaleY(0);
+  }
+  90%{
+    transform: scaleX(1.02) scaleY(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .share {
   display: block;
   width: 200px;
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   text-align: center;
   padding: 15px 0;
-  // background: green;
   border-radius: 2px;
-  font-size: 20px;
-  // box-shadow: 0px 2px 1px rgba(0,0,0,.2);
   text-decoration: none;
   color: white;
-  font-family: "Helvetica Neue";
   border: solid 2px white;
   border-radius: 30px;
 
   &:hover {
     background: rgba(255,255,255,.1);
+    .vibrate;
   }
 
 }
+
+.vibrate {
+  animation-name: vibrate;
+  animation-duration:  .07s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+}
+
