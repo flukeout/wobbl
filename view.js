@@ -13,8 +13,8 @@ function prepLinks(){
     makeLink = "/";
     remixLink = "/?id=" + faceID;
   } else {
-    makeLink = "flukeout.github.io/wobbl/";
-    remixLink = "flukeout.github.io/wobbl/?id=" + faceID;
+    makeLink = "http://flukeout.github.io/wobbl/";
+    remixLink = "http://flukeout.github.io/wobbl/?id=" + faceID;
   }
 
   $(".make-your-own").attr("href",makeLink);

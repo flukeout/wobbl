@@ -6,7 +6,6 @@ var imageWidth, imageHeight;
 var animations = ["mouth","vibrate","wobble","googly","eyebrows","nonono"]; // "spin"
 var outlines = ["square","circle","semi-top","semi-right","semi-bottom","semi-left"];
 
-
 var imgURL = "aken4.gif";
 // var imgURL = "http://www.fullnetworth.com/wp-content/uploads/2015/07/Roger-Federer.jpg";
 var selectedOutline = "square";
@@ -18,7 +17,6 @@ var starterImages = [
   "jonah.jpg",
   "http://www.fullnetworth.com/wp-content/uploads/2015/07/Roger-Federer.jpg"
 ];
-
 
 $(document).ready(function(){
 
@@ -286,9 +284,8 @@ function checkRemix(){
 }
 
 function buildPicker(){
-  console.log("build picker");
+
   for(var i = 0;i < starterImages.length; i++) {
-    console.log(starterImages[i]);
     var imageChoice = $("<div class='image-option'></div>");
     imageChoice.css("background-image","url("+starterImages[i]+")");
     imageChoice.attr("url",starterImages[i]);
