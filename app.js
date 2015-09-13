@@ -5,26 +5,38 @@ var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
 var animations = ["mouth","vibrate","wobble","googly","eyebrows","nonono"]; // "spin"
 var outlines = ["square","circle","semi-top","semi-right","semi-bottom","semi-left"];
+
+
 var imgURL = "aken4.gif";
+// var imgURL = "http://www.fullnetworth.com/wp-content/uploads/2015/07/Roger-Federer.jpg";
 var selectedOutline = "square";
 var selectedAnimation = animations[0];
 var avgDelta; //Keeps track of how much the mouse moved when makgin a shape
 
+var starterImages = [
+  "aken4.gif",
+  "jonah.jpg",
+  "http://www.fullnetworth.com/wp-content/uploads/2015/07/Roger-Federer.jpg"
+];
+
 
 $(document).ready(function(){
+
+    checkRemix();
+
+    buildPicker();
 
     $(".share").on("click", function(){
         savePic();
         return false;
     });
 
-
     imageWidth = $(".image").width();
     imageHeight = $(".image").height();
 
     buildAnimationUI();
     buildOutlineUI();
-    changeImage(imgURL);
+
 
     $(".shape-ui [outline="+selectedOutline+"]").addClass("selected-outline");
     $(".animation-ui [animation="+selectedAnimation+"]").addClass("selected-outline");
@@ -45,6 +57,7 @@ $(document).ready(function(){
         clickShape(e.target);
     });
 
+    //Starts a shape
     $(".image").on("mousedown",function(e){
         if ($(e.target).hasClass("image")){
             $(".selected").removeClass("selected");
@@ -149,41 +162,46 @@ function endShape(){
     shape.addClass("animate");
     shape.attr("animation",selectedAnimation);
 
-    shape.resizable({
-        handles: "se"
-    });
-
-    // TODO make it so that it becomes selected when you start dragging it
-    shape.draggable({
-        start : function(event,ui){
-            $(".shape.selected").removeClass("selected");
-            $(event.target).addClass("selected");
-        },
-        stop: function(event,ui){
-            var width = $(this).width();
-            var height = $(this).height();
-            var topStart = ui.position.top;
-            var leftStart = ui.position.left;
-
-            var off = false;
-            if(leftStart > $(".image").width()) {off = true;}
-            if(leftStart + width < 0) {off = true;}
-            if(topStart > $(".image").height()) { off = true; }
-            if(topStart + height < 0) {off = true;}
-            if(off) {
-                removeShape($(this));
-            }
-        },
-        drag: function(event,ui){
-            var top = ui.position.top;
-            var left = ui.position.left;
-            updateBackground($(".selected"),top,left)
-        }
-    });
+    makeShapeEditable(shape);
 
     if(avgDelta < 10 ){
         shape.remove();
     }
+}
+
+function makeShapeEditable(shape){
+
+  shape.resizable({
+      handles: "se"
+  });
+
+  // TODO make it so that it becomes selected when you start dragging it
+  shape.draggable({
+      start : function(event,ui){
+          $(".shape.selected").removeClass("selected");
+          $(event.target).addClass("selected");
+      },
+      stop: function(event,ui){
+          var width = $(this).width();
+          var height = $(this).height();
+          var topStart = ui.position.top;
+          var leftStart = ui.position.left;
+
+          var off = false;
+          if(leftStart > $(".image").width()) {off = true;}
+          if(leftStart + width < 0) {off = true;}
+          if(topStart > $(".image").height()) { off = true; }
+          if(topStart + height < 0) {off = true;}
+          if(off) {
+              removeShape($(this));
+          }
+      },
+      drag: function(event,ui){
+          var top = ui.position.top;
+          var left = ui.position.left;
+          updateBackground($(".selected"),top,left)
+      }
+  });
 }
 
 
@@ -255,4 +273,29 @@ function savePic(){
     //         $("body").append(canvas);
     //     }
     // });
+}
+
+function checkRemix(){
+  faceID = getParameterByName('id');
+  if(faceID) {
+    getImage(faceID);
+  } else {
+    changeImage(imgURL);
+    // showPicker();
+  }
+}
+
+function buildPicker(){
+  console.log("build picker");
+  for(var i = 0;i < starterImages.length; i++) {
+    console.log(starterImages[i]);
+    var imageChoice = $("<div class='image-option'></div>");
+    imageChoice.css("background-image","url("+starterImages[i]+")");
+    imageChoice.attr("url",starterImages[i]);
+    $(".image-picker").append(imageChoice);
+    imageChoice.on("click",function(){
+      changeImage($(this).attr("url"));
+      $(".image-picker").hide();
+    });
+  }
 }
