@@ -3,6 +3,7 @@
 body, html {
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 body {
@@ -12,14 +13,29 @@ body {
 .shape {
   background-repeat: no-repeat;
   position: absolute;
+  text-align: left;
+}
+
+.wrapper {
+  margin-bottom: 30px;
 }
 
 .image {
   background-repeat: no-repeat;
+  background-position: center;
   margin: 0 auto;
   position: relative;
   margin-top: 20px;
   box-shadow: 0px 2px 2px rgba(0,0,0,.1);
+  transition: all ease-out .1s;
+}
+
+.image-loading {
+  height: 300px;
+  width: 300px;
+  box-shadow: none;
+  background: rgba(0,0,0,.05);
+
 }
 
 .image-editor .image {
@@ -49,6 +65,7 @@ body {
     height: 100%;
     width: 100%;
     border-radius: inherit;
+
   }
 }
 
@@ -336,17 +353,19 @@ body {
   }
 }
 
-.share {
-  display: block;
-  width: 200px;
-  margin: 0 auto 20px auto;
+.button {
+  display: inline-block;
+  margin: 0 10px;
   text-align: center;
-  padding: 15px 0;
+  padding: 15px 25px;
+  min-width: 150px;
   border-radius: 2px;
   text-decoration: none;
   color: white;
   border: solid 2px white;
   border-radius: 30px;
+  font-size: 20px;
+  font-family: "Helvetica Neue";
 
   &:hover {
     background: rgba(255,255,255,.1);
@@ -362,3 +381,30 @@ body {
   transform-origin: bottom;
 }
 
+
+.image-source {
+  padding: 10px 0;
+  color: rgba(255,255,255,.7);
+  font-family: "Helvetica Neue", sans-serif;
+
+  * {
+    color: white;
+    font-family: inherit;
+  }
+
+  input {
+    border: none;
+    border-bottom: solid 2px rgba(255,255,255,.5);
+    background: transparent;
+    padding: 5px 0;
+    color: white;
+    margin: 0 5px;
+    font-size: 16px;
+    width: 400px;
+    outline: none;
+  }
+
+  a {
+   text-decoration: none;
+  }
+}

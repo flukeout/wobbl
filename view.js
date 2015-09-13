@@ -1,9 +1,26 @@
+var faceID;
 $(document).ready(function(){
-  var faceID = getParameterByName('id');
-  console.log(faceID);
+  faceID = getParameterByName('id');
   getImage(faceID);
+  prepLinks();
 
 });
+
+function prepLinks(){
+
+  var remixLink, makeLink;
+
+  if(environment == "local") {
+    makeLink = "/";
+    remixLink = "/?id=" + faceID;
+  } else {
+
+  }
+
+  $(".make-your-own").attr("href",makeLink);
+  $(".remix-it").attr("href",remixLink);
+
+}
 
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -24,11 +41,16 @@ function getImage(id) {
 
 
 function buildImage(face){
+
   changeImage(face.imageURL);
+
+  // $(".image").height(face.height);
+  // $(".image").width(face.width);
 
   if(!face.shapes){
     face.shapes = [];
   }
+
   for(var i = 0; i < face.shapes.length; i++){
     var shapeData = face.shapes[i];
     var newShape = $("<div class='shape'></div>");

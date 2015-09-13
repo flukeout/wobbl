@@ -9,7 +9,7 @@ var imgURL = "aken4.gif";
 var selectedOutline = "square";
 var selectedAnimation = animations[0];
 var avgDelta; //Keeps track of how much the mouse moved when makgin a shape
-var environment;
+
 
 $(document).ready(function(){
 
@@ -18,7 +18,6 @@ $(document).ready(function(){
         return false;
     });
 
-    checkEnvironment();
 
     imageWidth = $(".image").width();
     imageHeight = $(".image").height();
@@ -221,6 +220,8 @@ function savePic(){
     var savedPic = {};
     savedPic.shapes = [];
     savedPic.imageURL = imgURL;
+    savedPic.height = parseInt($(".image").height());
+    savedPic.width = parseInt($(".image").width());
 
     $(".image .shape").each(function(i,el){
         var shape = {};
@@ -233,8 +234,8 @@ function savePic(){
         savedPic.shapes.push(shape);
     });
 
+    //Gets a unique ID
     var hashids = new Hashids("Hello World");
-
     var id = hashids.encode(parseInt(Math.random() * 99), parseInt(Math.random() * 99));
 
     var facesRef = firebase.child("faces");
@@ -248,14 +249,10 @@ function savePic(){
 
     var link = baseURL + "view.html?id=" + id;
     $(".share-link").attr("href", link).text(link).show();
-}
 
-
-function checkEnvironment(){
-    var URL = window.location.href;
-    if(URL.indexOf("localhost") > -1) {
-        environment = "local";
-    } else {
-        environment = "production";
-    }
+    // html2canvas(document.querySelector(".image"), {
+    //     onrendered: function(canvas) {
+    //         $("body").append(canvas);
+    //     }
+    // });
 }
