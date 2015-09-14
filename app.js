@@ -3,7 +3,7 @@ var drawingThreshold = 10;
 var startX, startY,endX, endY, shape;
 var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
-var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing"];
+var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing"]; //spin
 
 var animationSpec = {
   "swing" : {
