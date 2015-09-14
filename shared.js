@@ -1,4 +1,5 @@
 var environment;
+var isRemix = false;
 checkEnvironment();
 
 //Changes the image being edited or viewed
@@ -11,15 +12,14 @@ function changeImage(image){
   $("body").append(img);
 
   img.on("load",function(){
-
-    console.log(img.width(),img.height());
     $(".image").width(img.width()).height(img.height());
-
     imageWidth = img.width();
     imageHeight = img.height();
     img.remove();
-
+    $(".image").removeClass("image-loading");
   });
+
+  $(".shape").remove();
 }
 
 //Updates the background of a shape
@@ -66,11 +66,21 @@ function buildImage(face){
     newShape.css("width",shapeData.width);
     newShape.css("height",shapeData.height);
     newShape.css("background-image","url("+face.imageURL+")");
+
+    if(shapeData.origin){
+      newShape.attr("origin",shapeData.origin);
+    }
+
     $(".image").append(newShape);
     updateBackground(newShape,shapeData.top,shapeData.left);
+
+    if(isRemix){
+      makeShapeEditable(newShape);
+    }
+
   }
 
-  $(".image").removeClass("image-loading");
+
 }
 
 function getParameterByName(name) {

@@ -3,14 +3,26 @@ var drawingThreshold = 10;
 var startX, startY,endX, endY, shape;
 var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
-var animations = ["mouth","vibrate","wobble","googly","eyebrows","nonono"]; // "spin"
-var outlines = ["square","circle","semi-top","semi-right","semi-bottom","semi-left"];
+var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing"];
 
-var imgURL = "aken4.gif";
-// var imgURL = "http://www.fullnetworth.com/wp-content/uploads/2015/07/Roger-Federer.jpg";
-var selectedOutline = "square";
+var animationSpec = {
+  "swing" : {
+    "origins" : ["bottom","left","top","right"]
+  },
+  "eyebrows" : {
+    "origins" : ["bottom","top"]
+  }
+}
+
+var outlines = ["circle","square","semi-top","semi-right","semi-bottom","semi-left"];
+var origins = ["top","right","bottom","left","center"];
+
+var imgURL = "http://i.imgur.com/9aLks1K.jpg";
+
+var selectedOutline = "circle";
 var selectedAnimation = animations[0];
 var avgDelta; //Keeps track of how much the mouse moved when makgin a shape
+var isRemix = false;
 
 var starterImages = [
   "aken4.gif",
@@ -21,7 +33,6 @@ var starterImages = [
 $(document).ready(function(){
 
     checkRemix();
-
     buildPicker();
 
     $(".share").on("click", function(){
@@ -34,7 +45,6 @@ $(document).ready(function(){
 
     buildAnimationUI();
     buildOutlineUI();
-
 
     $(".shape-ui [outline="+selectedOutline+"]").addClass("selected-outline");
     $(".animation-ui [animation="+selectedAnimation+"]").addClass("selected-outline");
@@ -91,10 +101,39 @@ function buildAnimationUI() {
     for(var i = 0; i < animations.length; i++) {
         var newEl = $("<div class='outline'/>");
         $(".animation-ui").append(newEl);
+
+        if(animationSpec[animations[i]]){
+          var origins = animationSpec[animations[i]].origins;
+          newEl.attr("origin",origins[0]);
+          newEl.append("<div class='origin'></div>");
+        } else {
+          var origins = [];
+        }
+
         newEl.attr("animation",animations[i]);
         newEl.on("click",function(){
             selectedAnimation = $(this).attr("animation");
             $(".selected").attr("animation",selectedAnimation);
+
+            if($(this).hasClass("selected-outline") && $(this).attr("origin")){
+              var currentOrigin = $(this).attr("origin");
+              var possibleOrigins = animationSpec[$(this).attr("animation")].origins;
+              var originIndex = possibleOrigins.indexOf(currentOrigin);
+              originIndex++;
+              if(originIndex >= possibleOrigins.length ){
+                originIndex = 0;
+              }
+              $(".selected").attr("origin",possibleOrigins[originIndex]);
+              $(this).attr("origin",possibleOrigins[originIndex]);
+            }
+
+            if($(this).attr("origin")){
+              $(".selected").attr("origin",$(this).attr("origin"));
+            } else {
+              $(".selected").removeAttr("origin");
+            }
+
+
         });
     }
 }
@@ -159,7 +198,6 @@ function endShape(){
     shape.css("background-position", offsetX + " " + offsetY);
     shape.addClass("animate");
     shape.attr("animation",selectedAnimation);
-
     makeShapeEditable(shape);
 
     if(avgDelta < 10 ){
@@ -247,6 +285,11 @@ function savePic(){
         shape.height = parseInt($(el).height());
         shape.outline = $(el).attr("outline");
         shape.animation = $(el).attr("animation");
+
+        if($(el).attr("origin")){
+          shape.origin = $(el).attr("origin");
+        }
+
         savedPic.shapes.push(shape);
     });
 
@@ -276,10 +319,10 @@ function savePic(){
 function checkRemix(){
   faceID = getParameterByName('id');
   if(faceID) {
+    isRemix = true;
     getImage(faceID);
   } else {
     changeImage(imgURL);
-    // showPicker();
   }
 }
 
@@ -292,7 +335,6 @@ function buildPicker(){
     $(".image-picker").append(imageChoice);
     imageChoice.on("click",function(){
       changeImage($(this).attr("url"));
-      $(".image-picker").hide();
     });
   }
 }
