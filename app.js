@@ -18,6 +18,7 @@ var outlines = ["circle","square","semi-top","semi-right","semi-bottom","semi-le
 var origins = ["top","right","bottom","left","center"];
 
 var imgURL = "http://i.imgur.com/9aLks1K.jpg";
+var imgURL = "http://wiiudaily.com/wp-content/uploads/2013/05/super-mario-world.jpg";
 
 var selectedOutline = "circle";
 var selectedAnimation = animations[0];
@@ -72,7 +73,7 @@ $(document).ready(function(){
             startX = e.offsetX;
             startY = e.offsetY;
             drawing = true;
-            shape = $("<div class='shape selected'></div>");
+            shape = $("<div class='shape selected'><div class='lock'></div></div>");
             shape.attr("outline",selectedOutline);
             $(".image").append(shape);
             updateShape();
@@ -198,6 +199,14 @@ function endShape(){
     shape.css("background-position", offsetX + " " + offsetY);
     shape.addClass("animate");
     shape.attr("animation",selectedAnimation);
+
+    //Checks to see what origin has been selected
+    //for this animation...
+    var animationUI = $(".animation-ui .selected-outline");
+    if(animationUI.attr("origin")){
+      shape.attr("origin",animationUI.attr("origin"));
+    }
+
     makeShapeEditable(shape);
 
     if(avgDelta < 10 ){
