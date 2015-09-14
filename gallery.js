@@ -15,7 +15,7 @@ function getImages() {
       // console.log(key);
       // childData will be the actual contents of the child
       var childData = childSnapshot.val();
-      buildImageGallery(childData);
+      buildImageGallery(childData,childSnapshot.key());
     });
 
 
@@ -26,11 +26,13 @@ function getImages() {
 }
 
 
-function buildImageGallery(face){
+function buildImageGallery(face,id){
+
 
   var newImage = $("<div class='image'></div>");
 
-  var newImageWrapper = $("<div class='image-wrapper'></div>");
+  var newImageWrapper = $("<a class='image-wrapper'></a>");
+  newImageWrapper.attr("href",getFaceURL(id,"view"));
 
   newImage.css("background-image","url("+face.imageURL+")");
 
@@ -75,6 +77,7 @@ function buildImageGallery(face){
 
   newImage.css("transform","scale("+ratio+")")
   newImageWrapper.append(newImage);
+
   $(".gallery").append(newImageWrapper);
 
 

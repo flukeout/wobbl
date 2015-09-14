@@ -89,3 +89,22 @@ function getParameterByName(name) {
     results = regex.exec(location.search);
   return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+
+
+function getFaceURL(id,type){
+  // Type is view or remix
+
+  var URL;
+  var view;
+  if(type == "view"){
+    view = "view.html"
+  }
+
+  if(environment = "local"){
+    URL = "http://localhost:8080/"+ view +"?id=" + id;
+  } else {
+    URL = "http://flukeout.github.io/wobbl/"+ view +"?id=" + id;
+  }
+  return URL;
+}

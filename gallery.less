@@ -1,18 +1,25 @@
 .gallery {
-
-     display: flex;
-     flex-direction: row;
-
-     justify-content: center;
-     flex-wrap: wrap;
-     align-content: center;
-     align-items: center;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
 
   .image-wrapper {
     position: relative;
     display: block;
     margin: 10px;
     overflow: hidden;
+    cursor: pointer;
+    transition: transform .2s ease-out;
+
+    &:hover {
+      opacity: .9;
+
+      transform: scale(1.02);
+    }
   }
 
   .image {
