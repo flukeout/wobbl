@@ -45,6 +45,11 @@ body {
   cursor: pointer;
 }
 
+.outline {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
 .selected {
   box-sizing: border-box;
   background-repeat: no-repeat;
@@ -447,13 +452,12 @@ body {
   transform-origin: bottom;
 }
 
-
-
-
 .image-source {
-  padding: 15px 0;
+  padding: 0px 0 8px 0;
+  margin-top: 15px;
   color: rgba(255,255,255,.7);
   font-family: "Helvetica Neue", sans-serif;
+  position: relative;
 
   label {
     display: none;
@@ -464,38 +468,33 @@ body {
     font-family: inherit;
   }
 
-  &.collapsed {
-    text-align: left;
-
-    input {
-      border: none;
-      opacity: .5;
-      margin: 0;
-      cursor: pointer;
-    }
-
-    label {
-      display: none;
-    }
-    a {
-      display: none;
-    }
-  }
-
   input {
     border: none;
     border-bottom: solid 2px rgba(255,255,255,.5);
     background: transparent;
-    padding: 3px 0;
+    padding: 0 0 3px 0;
     color: white;
-    font-size: 16px;
-    width: 400px;
+    font-size: 14px;
+    width: 100%;
     outline: none;
+    position: relative;
+    line-height: 14px;
+    overflow: hidden;
+    margin-right: 5px;
+    display: inline-block;
+    display: block;
+    padding-right: 80px;
   }
 
   a {
    text-decoration: none;
    opacity: .4;
+   font-size: 14px;
+   display: block;
+   float: right;
+   position: absolute;
+   top: 0;
+   right: 0;
 
    &:hover {
      opacity: .8;
