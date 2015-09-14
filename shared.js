@@ -4,9 +4,7 @@ checkEnvironment();
 
 //Changes the image being edited or viewed
 function changeImage(image){
-  $(".image").css("background-image","url("+image+")");
-  $(".image-source input").val(image);
-  var img = $("<img/>");
+  var img = $("<img class='test-image' />");
   img.attr("src",image);
   imgURL = image;
   $("body").append(img);
@@ -17,6 +15,9 @@ function changeImage(image){
     imageHeight = img.height();
     img.remove();
     $(".image").removeClass("image-loading");
+
+    $(".image").css("background-image","url("+image+")");
+    $(".image-source input").val(image);
   });
 
   $(".shape").remove();
