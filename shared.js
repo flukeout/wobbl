@@ -72,6 +72,8 @@ function buildImage(face){
       newShape.attr("origin",shapeData.origin);
     }
 
+    $(".imageURL").text(face.imageURL);
+
     $(".image").append(newShape);
     updateBackground(newShape,shapeData.top,shapeData.left);
 

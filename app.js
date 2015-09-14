@@ -17,8 +17,7 @@ var animationSpec = {
 var outlines = ["circle","square","semi-top","semi-right","semi-bottom","semi-left"];
 var origins = ["top","right","bottom","left","center"];
 
-var imgURL = "http://i.imgur.com/9aLks1K.jpg";
-var imgURL = "http://wiiudaily.com/wp-content/uploads/2013/05/super-mario-world.jpg";
+var imgURL = "http://blog.hostelbookers.com/wp-content/uploads/2012/02/shoreditch-cat.jpg";
 
 var selectedOutline = "circle";
 var selectedAnimation = animations[0];
