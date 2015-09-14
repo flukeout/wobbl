@@ -1,5 +1,3 @@
-// TODO add a link from each gallery item to the full view
-
 $(document).ready(function(){
   getImages();
 });
@@ -8,34 +6,21 @@ function getImages() {
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
 
   firebase.once("value", function(snapshot) {
-
     snapshot.forEach(function(childSnapshot) {
-      // key will be "fred" the first time and "barney" the second time
-      // var key = childSnapshot.key();
-      // console.log(key);
-      // childData will be the actual contents of the child
+      var id = childSnapshot.key();
       var childData = childSnapshot.val();
-      buildImageGallery(childData,childSnapshot.key());
+      buildImageGallery(childData,id);
     });
-
-
-    // var nameSnapshot = snapshot.child(id);
-    // var face = nameSnapshot.val();
-    // buildImage(face);
   });
 }
 
 
+//Builds each image for the gallery
 function buildImageGallery(face,id){
-
-
   var newImage = $("<div class='image'></div>");
 
   var newImageWrapper = $("<a class='image-wrapper'></a>");
   newImageWrapper.attr("href",getFaceURL(id,"view"));
-
-
-  console.log(getFaceURL(id,"view"));
 
   newImage.css("background-image","url("+face.imageURL+")");
 

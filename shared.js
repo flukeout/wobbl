@@ -38,9 +38,7 @@ function checkEnvironment(){
   } else {
     environment = "production";
   }
-  console.log("environment is " + environment);
 }
-
 
 function getImage(id) {
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
