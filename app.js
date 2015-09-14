@@ -50,7 +50,17 @@ $(document).ready(function(){
     $(".shape-ui [outline="+selectedOutline+"]").addClass("selected-outline");
     $(".animation-ui [animation="+selectedAnimation+"]").addClass("selected-outline");
 
+    //Prep name UI
+    $(".imageURL").text(imgURL);
+
+    $(".change").on("click",function(){
+      $(".image-source").toggleClass("collapsed");
+      $(".image-source input").focus();
+    });
+
+
     $(".pick").on("click",function(){
+        $(".image-source").toggleClass("collapsed");
         var newImage = $("input").val();
         if(newImage.length > 0){
             changeImage(newImage);
