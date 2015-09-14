@@ -38,6 +38,7 @@ function checkEnvironment(){
   } else {
     environment = "production";
   }
+  console.log("environment is " + environment);
 }
 
 
@@ -104,7 +105,7 @@ function getFaceURL(id,type){
     view = "view.html"
   }
 
-  if(environment = "local"){
+  if(environment == "local"){
     URL = "http://localhost:8080/"+ view +"?id=" + id;
   } else {
     URL = "http://flukeout.github.io/wobbl/"+ view +"?id=" + id;

@@ -34,6 +34,9 @@ function buildImageGallery(face,id){
   var newImageWrapper = $("<a class='image-wrapper'></a>");
   newImageWrapper.attr("href",getFaceURL(id,"view"));
 
+
+  console.log(getFaceURL(id,"view"));
+
   newImage.css("background-image","url("+face.imageURL+")");
 
 
