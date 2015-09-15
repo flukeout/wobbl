@@ -1,0 +1,7 @@
+* Make it so you deselect shape when clicking away from it (except the shape ui)
+* If you change the image ot what it already is, don't clear the shapes
+* logo + nav
+* Z indexing of shapes
+* Rotation of shapes <- big one...
+
+

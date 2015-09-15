@@ -3,7 +3,7 @@ var drawingThreshold = 10;
 var startX, startY,endX, endY, shape;
 var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
-var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing"]; //spin
+var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing"]; //spin, breathe, breathe,headshake
 
 var animationSpec = {
   "swing" : {
@@ -16,8 +16,11 @@ var animationSpec = {
 
 var outlines = ["circle","square","semi-top","semi-right","semi-bottom","semi-left"];
 var origins = ["top","right","bottom","left","center"];
-
 var imgURL = "http://blog.hostelbookers.com/wp-content/uploads/2012/02/shoreditch-cat.jpg";
+var imgURL = "http://i2.cdnds.net/15/21/618x409/movies-mad-max-1979-mel-gibson.jpg";
+// var imgURL = "https://s-media-cache-ak0.pinimg.com/236x/af/8f/61/af8f61dfec56332eda41e8b8dd67a210.jpg";
+var imgURL = "http://i.dailymail.co.uk/i/pix/2015/05/08/13/0B9D423100000578-3073531-image-m-31_1431089651394.jpg";
+
 
 var selectedOutline = "circle";
 var selectedAnimation = animations[0];
@@ -32,8 +35,17 @@ var starterImages = [
 
 $(document).ready(function(){
 
+    //Checks if this is a remix by looking for an ID, and loads if necessary
     checkRemix();
-    buildPicker();
+
+    //Builds the image picker
+    // buildPicker();
+
+    $(".start-over").on("click", function(){
+        startOver();
+        return false;
+    });
+
 
     $(".share").on("click", function(){
         savePic();
@@ -59,11 +71,15 @@ $(document).ready(function(){
 
 
     $(".pick").on("click",function(){
-        $(".image-source").toggleClass("collapsed");
-        var newImage = $("input").val();
-        if(newImage.length > 0){
-            changeImage(newImage);
-        }
+      $(".image-source").toggleClass("collapsed");
+      var newImage = $("input").val();
+      if(newImage.length > 0 && newImage != imgURL){
+        changeImage(newImage);
+      }
+    });
+
+    $("body").on("click",function(e){
+      var clicked = e.target;
     });
 
     $(".outline").on("click",function(e){
@@ -82,6 +98,7 @@ $(document).ready(function(){
             startX = e.offsetX;
             startY = e.offsetY;
             drawing = true;
+            $(".ftu-on").removeClass("ftu-on");
             shape = $("<div class='shape selected'><div class='lock'></div></div>");
             shape.attr("outline",selectedOutline);
             $(".image").append(shape);
@@ -339,6 +356,9 @@ function checkRemix(){
   if(faceID) {
     isRemix = true;
     getImage(faceID);
+
+    $(".ftu-on").removeClass("ftu-on");
+
   } else {
     changeImage(imgURL);
   }
@@ -355,4 +375,12 @@ function buildPicker(){
       changeImage($(this).attr("url"));
     });
   }
+}
+
+function deselectShape(){
+  $(".image .selected").removeClass("selected");
+}
+
+function startOver() {
+  $(".image .shape").remove();
 }

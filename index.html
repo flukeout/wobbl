@@ -3,6 +3,8 @@
     <title>wobbl</title>
 
     <link rel="stylesheet/less" href="style.less" type="text/css">
+    <link rel="stylesheet/less" href="ftu.less" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
     <script src="jquery.js" type="text/javascript" charset="utf-8"></script>
     <script src="jquery.ui.js" type="text/javascript" charset="utf-8"></script>
@@ -28,30 +30,58 @@
       };
     </script>
     <script src="less.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      if(environment == "production"){
+        ga('create', 'UA-67568130-1', 'auto');
+        ga('send', 'pageview');
+      }
+    </script>
+
   </head>
 
   <body>
     <!-- <div class="image-picker"></div> -->
-    <div class="wrapper image-editor">
+    <div class="wrapper image-editor ftu-on">
 
       <div class="image-source collapsed"> <!--collapsed-->
-        <span class="imageURL"></span>
-        <a href="#" class="change">Change</a>
+        <!-- <span class="imageURL"></span> -->
+        <a href="#" class="change">Change Image</a>
         <input type="text" />
         <a href="#" class="pick">OK</a>
       </div>
 
-      <div class="image image-loading"></div>
+      <div class="image image-loading">
+
+        <div class="ftu">
+          <div class="cursor">+</div>
+        </div>
+        <div class="ftu-message">Select a part of the image...</div>
+
+      </div>
+
+      <div class="image-ui">
+        <a class="start-over" href="#">Start Over</a>
+      </div>
 
       <div class="shape-ui options-ui"></div>
       <div class="animation-ui options-ui"></div>
 
       <div class="share-ui">
-        <a class="share button" href="#">SHARE</a>
+
+        <a class="share button" href="#">Share</a>
         <a class="share-link" href="#"></a>
       </div>
 
     </div>
+
+
+
 
   </body>
 </html>

@@ -11,7 +11,14 @@ body, html {
 body {
   background-image: linear-gradient(rgb(51, 170, 255) 50%, rgb(51, 255, 238) 100%);
   padding-bottom: 30px;
+
+
+  * {
+      font-family: 'Lato', sans-serif;
+  }
+
 }
+
 
 .shape {
   background-repeat: no-repeat;
@@ -32,6 +39,7 @@ body {
   margin: 0 auto;
   position: relative;
   transition: all ease-out .1s;
+  perspective: 800px;
 }
 
 .image-loading {
@@ -93,10 +101,13 @@ body {
   }
 }
 
+.options-ui {
+  top: 43px;
+}
+
 .shape-ui {
   position: absolute;
   right: -120px;
-  top: 60px;
 
   .outline {
     border: dotted 2px white;
@@ -108,7 +119,6 @@ body {
 .animation-ui {
   position: absolute;
   right: -60px;
-  top: 60px;
 
   .outline {
     background: white;
@@ -143,27 +153,6 @@ body {
   animation-iteration-count: infinite;
 }
 
-
-[animation=googly] {
-  animation-name: googly;
-  animation-duration:  .2s;
-  animation-iteration-count: infinite;
-  transform-origin: center;
-}
-
-
-@keyframes googly {
-    0% {
-        transform: scale(.95);
-    }
-    50%{
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(.95);
-    }
-}
-
 @keyframes wobble {
     0% {
         transform: rotate(0);
@@ -192,7 +181,7 @@ body {
         transform: scaleY(.9);
     }
     50%{
-        transform: scaleY(1.05);
+        transform: scaleY(1.03);
     }
     100% {
         transform: scaleY(.9);
@@ -396,7 +385,6 @@ body {
   text-align: center;
   color: white;
   font-size: 20px;
-  font-family: "Helvetica Neue";
   margin-top: 20px;
 
   .share-link {
@@ -441,7 +429,6 @@ body {
   border: solid 2px white;
   border-radius: 30px;
   font-size: 20px;
-  font-family: "Helvetica Neue";
 
   &:hover {
     background: rgba(255,255,255,.1);
@@ -461,7 +448,6 @@ body {
   padding: 0px 0 8px 0;
   margin-top: 15px;
   color: rgba(255,255,255,.7);
-  font-family: "Helvetica Neue", sans-serif;
   position: relative;
   text-align: left;
 
@@ -477,8 +463,6 @@ body {
   * {
     font-size: 14px;
     color: white;
-    font-family: inherit;
-
   }
 
   .imageURL {
@@ -572,8 +556,6 @@ body {
 }
 
 
-
-
 .shape {
 
   .origin {
@@ -614,4 +596,87 @@ body {
   transform: scale(0);
   position: fixed;
   bottom: -200px;
+}
+
+
+[animation=breathe] {
+  animation-name: breathe;
+  animation-duration:  2.2s;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+}
+
+@keyframes breathe {
+    0% {
+        transform: scale(1);
+    }
+    10% {
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.05) translateY(-2px);
+    }
+    55%{
+        transform: scale(1.05) translateY(-2px);
+    }
+    100% {
+        transform: scale(1);
+    }
+  }
+
+
+  [animation=googly] {
+    animation-name: googly;
+    animation-duration:  .2s;
+    animation-iteration-count: infinite;
+    transform-origin: center;
+  }
+
+  @keyframes googly {
+      0% {
+          transform: scale(.95);
+      }
+      50%{
+          transform: scale(1.05);
+      }
+      100% {
+          transform: scale(.95);
+      }
+    }
+
+[animation=headshake] {
+  animation-name: headshake;
+  animation-duration:  1s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
+  animation-timing-function: linear;
+}
+
+@keyframes headshake {
+  0% {
+    transform: none;
+  }
+  25%{
+    transform: translateY(5%) translateX(0px) rotate(0deg);
+  }
+  50% {
+    transform: none;
+  }
+  75% {
+    transform: translateY(5%) translateX(0px) rotate(0deg);
+  }
+}
+
+
+
+.image-ui {
+  text-align: left;
+  a {
+    color: white;
+    opacity: .5;
+    text-decoration: none;
+    font-size: 14px;
+    position: relative;
+    top: 5px;
+  }
 }

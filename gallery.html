@@ -1,14 +1,11 @@
 <html>
   <head>
     <title>wobbl gallery</title>
-
     <link rel="stylesheet/less" href="style.less" type="text/css">
     <link rel="stylesheet/less" href="gallery.less" type="text/css">
-
     <script src="jquery.js" type="text/javascript" charset="utf-8"></script>
     <script src="jquery.ui.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
-
     <script src="shared.js" type="text/javascript" charset="utf-8"></script>
     <script src="gallery.js" type="text/javascript" charset="utf-8"></script>
 
@@ -25,7 +22,17 @@
       };
     </script>
     <script src="less.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+      if(environment == "production"){
+        ga('create', 'UA-67568130-1', 'auto');
+        ga('send', 'pageview');
+      }
+    </script>
   </head>
 
   <body>
