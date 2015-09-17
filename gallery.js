@@ -91,7 +91,4 @@ function buildImageGallery(face,id){
   newImageWrapper.append(newImage);
 
   $(".gallery").append(newImageWrapper);
-
-
 }
-

@@ -18,16 +18,8 @@ FUNCTIONS
 endShape() - finishes creating the shape after dragging
 makeShapeEditable() - makes things draggable etc.
 testIfGiffable() - checks to see if we can make a CORS request and make a GIF
-
-
-
-Thoughts on z-index
-
-We could start every shape with a z-index of 1000;
-then when we press send to back... we could check the lowest z-index, and go one lower for the selected shape...
-
-* Need to save z-index along with the shape property
-
+savePic() - saves the picture
+checkSendToBack() - checks if hte link to sending to back should be shown
 
 Fancy shiz
 * be able to offset the animations so they don't all run exactly the same

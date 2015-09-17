@@ -6,6 +6,9 @@ var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
 var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing","none"]; //spin, breathe, breathe,headshake
 
+
+
+
 //These specify possible origins for the animations that need them
 var animationSpec = {
   "swing" : {
@@ -57,6 +60,7 @@ $(document).ready(function(){
 
     $(".send-to-back").on("click",function(){
         sendShapeToBack();
+        return false;
     });
 
 
@@ -119,12 +123,14 @@ $(document).ready(function(){
     $(".image").on("mousedown",function(e){
         if ($(e.target).hasClass("image")){
             deselectShape();
-            // $(".selected").removeClass("selected");
             startX = e.offsetX;
             startY = e.offsetY;
             drawing = true;
             $(".ftu-on").removeClass("ftu-on");
+
             shape = $("<div class='shape selected'><div class='lock'></div></div>");
+            shape.css("z-index",9999);
+            shape.attr("z",9999);
             shape.attr("outline",selectedOutline);
             $(".image").append(shape);
             updateShape();
@@ -141,10 +147,10 @@ $(document).ready(function(){
     });
 
     $("body").on("mouseup",function(e){
-        if(drawing == true) {
-            drawing = false;
-            endShape();
-        }
+      if(drawing == true) {
+        drawing = false;
+        endShape();
+      }
     });
 
 });
@@ -237,11 +243,10 @@ function updateShape(){
 }
 
 function endShape(){
+    drawing = false;
     shape.css("background-image","url("+imgURL+")");
     var offsetX = 0 - shapeStartX;
     var offsetY = 0 - shapeStartY;
-
-    // shape.css("background-position", offsetX + " " + offsetY);
 
     updateBackground(shape,shapeStartY,shapeStartX);
 
@@ -258,7 +263,8 @@ function endShape(){
     makeShapeEditable(shape);
 
     if(avgDelta < 10 ){
-        shape.remove();
+      shape.remove();
+      checkSendToBack();
     }
 }
 
@@ -273,7 +279,7 @@ function makeShapeEditable(shape){
       start : function(event,ui){
           $(".shape.selected").removeClass("selected");
           $(event.target).addClass("selected");
-          $(".send-to-back").show();
+          checkSendToBack();
       },
       stop: function(event,ui){
           var width = $(this).width();
@@ -314,18 +320,15 @@ function clickShape(target){
             index = 0;
         }
         shape.attr("animation",animations[index]);
-
     } else {
-      console.log("clickshape");
         $(".selected").removeClass("selected");
         shape.addClass("selected");
-        $(".send-to-back").show();
+        checkSendToBack();
     }
 
     $(".animation-ui").find("[animation=" + shape.attr("animation") + "]").addClass("selected-outline");
     $(".shape-ui").find("[outline=" + shape.attr("outline") + "]").addClass("selected-outline");
-
-}
+  }
 
 
 var firebase = new Firebase("https://facejam.firebaseio.com/");
@@ -345,6 +348,7 @@ function savePic(){
         shape.height = parseInt($(el).height());
         shape.outline = $(el).attr("outline");
         shape.animation = $(el).attr("animation");
+        shape.z = $(el).attr("z") || 9999;
 
         if($(el).attr("origin")){
           shape.origin = $(el).attr("origin");
@@ -492,16 +496,36 @@ function renderGif(gif){
 
 function deselectShape(){
   $(".image .selected").removeClass("selected");
-  $(".send-to-back").hide();
+  checkSendToBack();
 }
 
 function startOver() {
   $(".image .shape").remove();
 }
 
-
 function sendShapeToBack(){
-  var lowestIndex;
-  $(".image .shape").css("z-index","1000");
-  $(".shape.selected").css("z-index","1");
+  var lowestIndex = 9999;
+
+  $(".image .shape").each(function(){
+    var z = $(this).attr("z");
+    if(z < lowestIndex) {
+      lowestIndex = z;
+    }
+  });
+
+  lowestIndex--;
+
+  $(".shape.selected").css("z-index",lowestIndex).attr("z",lowestIndex);
+}
+
+
+function checkSendToBack(){
+  var shapes = $(".image .shape").length;
+  var shapesSelected = $(".image .shape.selected").length;
+
+  if(shapes > 1 && shapesSelected > 0){
+    $(".send-to-back").show();
+  } else {
+    $(".send-to-back").hide();
+  }
 }

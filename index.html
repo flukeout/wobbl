@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>wobbl</title>
+    <title>make a wobbl</title>
 
     <link rel="stylesheet/less" href="style.less" type="text/css">
     <link rel="stylesheet/less" href="ftu.less" type="text/css">
@@ -13,7 +13,6 @@
     <script src="jquery.hammer.js" type="text/javascript" charset="utf-8"></script>
     <script src="hashids.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="html2canvas.js" type="text/javascript" charset="utf-8"></script>
-
 
     <script src="gif.js" type="text/javascript" charset="utf-8"></script>
     <script src="gif.worker.js" type="text/javascript" charset="utf-8"></script>
@@ -60,11 +59,6 @@
 
     <div class="wrapper image-editor ftu-on ">
 
-      <div class="image-source collapsed"> <!--collapsed-->
-        <a href="#" class="change">Change Image</a>
-        <input type="text" />
-        <a href="#" class="pick">OK</a>
-      </div>
 
       <div class="image-wrapper">
         <div class="image image-loading">
@@ -76,14 +70,21 @@
         <div class="recording-indicator">
           <div class="red-dot"></div>REC
         </div>
+
+
+      <div class="image-source collapsed">
+        <input type="text" />
+        <a href="#" class="pick">OK</a>
+      </div>
+
+
       </div>
 
       <div class="image-ui">
+        <a href="#" class="change">Change Image</a>
         <a class="send-to-back" href="#">Send selection to (b)ack</a>
-
         <a class="start-over" href="#">Start Over</a>
         <a class="make-gif" href="#">Make into GIF</a>
-
       </div>
 
       <div class="shape-ui options-ui"></div>
@@ -91,7 +92,9 @@
 
       <div class="share-ui">
         <a class="share button" href="#">Share</a>
-        <a class="share-link" href="#"></a>
+        <div class="share-link-wrapper">
+          <a class="share-link" href="#"></a>
+        </div>
       </div>
 
     </div>

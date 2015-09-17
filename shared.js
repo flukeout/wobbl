@@ -96,6 +96,11 @@ function buildImage(face){
     newShape.css("top",shapeData.top);
     newShape.css("width",shapeData.width);
     newShape.css("height",shapeData.height);
+
+    if(shapeData.z){
+      newShape.css("z-index",shapeData.z);
+      newShape.attr("z",shapeData.z);
+    }
     newShape.css("background-image","url("+face.imageURL+")");
 
     if(shapeData.origin){
