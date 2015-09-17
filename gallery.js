@@ -5,22 +5,13 @@ $(document).ready(function(){
 function getImages() {
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
 
-  // firebase.limitToLast(20).once("value", function(snapshot) {
-
-  firebase.limitToLast(40).once("value", function(snapshot) {
+  firebase.limitToLast(50).once("value", function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       var id = childSnapshot.key();
       var childData = childSnapshot.val();
       buildImageGallery(childData,id);
     });
   });
-
-  // scoresRef.orderByValue().limitToLast(3).on("value", function(snapshot) {
-  //   snapshot.forEach(function(data) {
-  //     console.log("The " + data.key() + " dinosaur's score is " + data.val());
-  //   });
-  // });
-
 }
 
 function deleteImage(id){
