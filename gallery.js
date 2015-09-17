@@ -59,8 +59,11 @@ function buildImageGallery(face,id){
     newImage.width(img.width()).height(img.height());
     newImageWrapper.width(img.width() * ratio).height(img.height() * ratio);
     newImage.removeClass("image-loading");
-    deleteLink.show();
-    // console.log(ratio);
+
+    if(environment == "local"){
+      deleteLink.show();
+    }
+
     img.remove();
     newImage.css("transform","scale("+ratio+")");
   });
