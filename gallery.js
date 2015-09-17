@@ -5,39 +5,64 @@ $(document).ready(function(){
 function getImages() {
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
 
-  firebase.once("value", function(snapshot) {
+  // firebase.limitToLast(20).once("value", function(snapshot) {
+
+  firebase.limitToLast(40).once("value", function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       var id = childSnapshot.key();
       var childData = childSnapshot.val();
       buildImageGallery(childData,id);
     });
   });
+
+  // scoresRef.orderByValue().limitToLast(3).on("value", function(snapshot) {
+  //   snapshot.forEach(function(data) {
+  //     console.log("The " + data.key() + " dinosaur's score is " + data.val());
+  //   });
+  // });
+
 }
 
+function deleteImage(id){
+  var firebase = new Firebase("https://facejam.firebaseio.com/faces/"+id);
+  firebase.remove();
+}
 
 //Builds each image for the gallery
 function buildImageGallery(face,id){
-  var newImage = $("<div class='image'></div>");
+  var newImage = $("<a class='image'></a>");
+  var newImageWrapper = $("<div class='image-wrapper'></div>");
 
-  var newImageWrapper = $("<a class='image-wrapper'></a>");
-  newImageWrapper.attr("href",getFaceURL(id,"view"));
+  if(environment == "local") {
+    var deleteLink = $("<a class='delete-image'>Delete</a>");
+    newImageWrapper.append(deleteLink);
+    deleteLink.hide();
 
+    deleteLink.on("click",function(){
+      removeShape($(this).closest(".image-wrapper"));
+      deleteImage(id);
+      return false;
+    });
+  }
+
+  newImage.attr("href",getFaceURL(id,"view"));
   newImage.css("background-image","url("+face.imageURL+")");
-
 
   var img = $("<img/>");
   img.attr("src",face.imageURL);
 
   $("body").append(img);
 
-  var ratio = .5;
-
   img.on("load",function(){
-    newImage.width(img.width()).height(img.height());
 
+    var ratio = 200 / img.height();
+    newImage.width(img.width()).height(img.height());
     newImageWrapper.width(img.width() * ratio).height(img.height() * ratio);
-    img.remove();
     newImage.removeClass("image-loading");
+    deleteLink.show();
+    // console.log(ratio);
+    img.remove();
+    newImage.css("transform","scale("+ratio+")");
   });
 
   if(!face.shapes){
@@ -63,7 +88,6 @@ function buildImageGallery(face,id){
     updateBackground(newShape,shapeData.top,shapeData.left);
   }
 
-  newImage.css("transform","scale("+ratio+")")
   newImageWrapper.append(newImage);
 
   $(".gallery").append(newImageWrapper);

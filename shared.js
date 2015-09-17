@@ -13,14 +13,36 @@ function changeImage(image){
     $(".image").width(img.width()).height(img.height());
     imageWidth = img.width();
     imageHeight = img.height();
-    img.remove();
     $(".image").removeClass("image-loading");
-
     $(".image").css("background-image","url("+image+")");
     $(".image-source input").val(image);
+    testIfGiffable();
+    img.remove();
   });
 
   $(".shape").remove();
+}
+
+
+function testIfGiffable(){
+
+  var img = $("<img />");
+  img.attr("src",imgURL);
+  var canvas = document.createElement("canvas");
+  var context = canvas.getContext('2d');
+  context.drawImage(img[0], 69, 50);
+  var canGif = true;
+
+  try {
+    var pixel = context.getImageData(0, 0, 1, 1);
+  } catch(err) {
+    canGif = false;
+  }
+
+  if(!canGif){
+    $(".make-gif").hide();
+  }
+
 }
 
 //Updates the background of a shape
@@ -28,6 +50,8 @@ function updateBackground(shape,top,left) {
   var offsetX = 0 - left;
   var offsetY = 0 - top;
   shape.css("background-position", offsetX + " " + offsetY);
+  shape.attr("backgroundx",offsetX);
+  shape.attr("backgroundy",offsetY);
 }
 
 //checks if we're on localhost
@@ -38,6 +62,13 @@ function checkEnvironment(){
   } else {
     environment = "production";
   }
+}
+
+function removeShape(shape){
+    shape.addClass('remove-shape');
+    setTimeout(function(){
+        shape.remove();
+    },300);
 }
 
 function getImage(id) {

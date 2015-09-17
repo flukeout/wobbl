@@ -9,16 +9,12 @@ body, html {
 }
 
 body {
-  background-image: linear-gradient(rgb(51, 170, 255) 50%, rgb(51, 255, 238) 100%);
+  background-image: linear-gradient(172deg, rgb(51, 170, 255) 65%, rgb(51, 255, 238) 100%);
   padding-bottom: 30px;
-
-
   * {
       font-family: 'Lato', sans-serif;
   }
-
 }
-
 
 .shape {
   background-repeat: no-repeat;
@@ -33,8 +29,16 @@ body {
   display: inline-block;
 }
 
+.image-wrapper {
+  padding:20px;
+  background: rgba(0,0,0,.2);
+  border-radius: 2px;
+  position: relative;
+}
+
 .image {
   background-repeat: no-repeat;
+
   background-position: center;
   margin: 0 auto;
   position: relative;
@@ -120,9 +124,16 @@ body {
   position: absolute;
   right: -60px;
 
+
+
   .outline {
     background: white;
     transition: opacity .1s ease-out;
+
+    &[animation=none] {
+
+    }
+
   }
 }
 
@@ -144,6 +155,10 @@ body {
   }
 
 
+}
+
+[animation=none] {
+  animation-name: none;
 }
 
 
@@ -299,6 +314,7 @@ body {
     }
 }
 
+
 [animation=vibrate] {
     animation-name: vibrate;
     animation-duration:  .07s;
@@ -425,6 +441,7 @@ body {
   min-width: 150px;
   border-radius: 2px;
   text-decoration: none;
+  // background: rgba(0,0,0,.2);
   color: white;
   border: solid 2px white;
   border-radius: 30px;
@@ -449,7 +466,7 @@ body {
   margin-top: 15px;
   color: rgba(255,255,255,.7);
   position: relative;
-  text-align: left;
+  text-align: center;
 
   label {
     display: none;
@@ -457,7 +474,11 @@ body {
 
   a {
     text-decoration: none;
-    opacity: .4;
+    opacity: .5;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   * {
@@ -468,8 +489,6 @@ body {
   .imageURL {
     display: none;
     border-bottom: solid 2px transparent;
-
-
   }
 
   .change {
@@ -667,10 +686,19 @@ body {
   }
 }
 
-
-
 .image-ui {
   text-align: left;
+  margin-top: 2px;
+
+  .send-to-back {
+    float: right;
+    display: none;
+
+    &.activated {
+      opacity: 1;
+    }
+  }
+
   a {
     color: white;
     opacity: .5;
@@ -678,5 +706,101 @@ body {
     font-size: 14px;
     position: relative;
     top: 5px;
+    margin-right: 10px;
+
+    &:hover{
+      opacity: 1;
+    }
+
   }
+}
+
+.gif {
+  display: block;
+  margin: 20px auto;
+}
+
+
+canvas {
+  display: block;
+}
+
+.nav {
+  padding: 20px 20px 23px 20px;
+  background: rgba(0,0,0,.2);
+  text-align: left;
+
+  a {
+    // font-weight: bold;
+    color: white;
+    margin-right: 15px;
+    cursor: pointer;
+    opacity: .5;
+    text-decoration: none;
+
+    &:hover {
+      opacity: .6;
+      border-bottom: solid 2px rgba(255,255,255,1);
+    }
+
+    &:hover:not(.nav-selected){
+      .vibrate;
+    }
+
+    &.nav-selected {
+      border-bottom: solid 2px white;
+      opacity: .8;
+    }
+
+  }
+
+}
+
+.recording-indicator {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  color: white;
+  text-shadow: 0px 1px 0px rgba(0,0,0,.2);
+  font-weight: bold;
+  display: none;
+  animation-name: pulse;
+  animation-duration:  .5s;
+  animation-iteration-count: infinite;
+
+  .red-dot {
+    display: inline-block;
+    background: #e61a1a;
+    border-radius: 10px;
+    height: 15px;
+    width: 15px;
+    margin-right: 4px;
+    position: relative;
+    top:1px;
+  }
+
+}
+
+
+@keyframes pulse {
+    0% {
+      transform: scale(1)
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+}
+
+
+.beta-banner {
+  background: #e6451a;
+  color: white;
+  padding: 15px;
+  box-shadow: 0px 1px 1px rgba(0,0,0,.2);
+  position: fixed;
+  top: 0;
+  right:10;
 }

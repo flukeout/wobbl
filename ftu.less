@@ -8,15 +8,15 @@
 
 .ftu-on {
   .animation-ui, .shape-ui {
-    opacity: 0;
+    // opacity: 0;
   }
 
   .image-source {
-    opacity: 0;
+    // opacity: 0;
   }
 
   .share-ui {
-    opacity: 0;
+    // opacity: 0;
   }
 }
 
@@ -29,13 +29,21 @@
     display: block;
   }
   .ftu-message {
-    display: block;
+    // display: block;
     color: white;
-    font-size: 20px;
+    background: rgba(100,183,238,.8);
+    // background: rgba(49,126,177,.8);
+    font-size: 15px;
     position: absolute;
-    top: -34px;
-    width: 100%;
-    opacity: .8;
+    top: 20px;
+    left: -10px;
+    width: 200px;
+    left: ~"calc(50% - 100px)";
+    opacity: 1;
+    padding: 10px 15px;
+    border-radius: 3px;
+    text-shadow: 0px 1px 0px rgba(0,0,0,.5);
+
   }
 }
 
@@ -47,9 +55,8 @@
   transform-origin: center;
   display: none;
   pointer-events: none;
-
-  border: dotted 3px rgba(255,255,255,.4);
-  background: rgba(255,255,255,.2);
+  border: dotted 3px rgba(255,255,255,.6);
+  background: rgba(100,183,238,.3);
   position: absolute;
   top: ~"calc(50% - 60px)";
   left: ~"calc(50% - 100px)";

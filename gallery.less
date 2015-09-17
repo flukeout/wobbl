@@ -11,14 +11,29 @@
     position: relative;
     display: block;
     margin: 10px;
-    overflow: hidden;
+    background: transparent;
+    padding: 0;
+
     cursor: pointer;
     transition: transform .2s ease-out;
 
     &:hover {
       opacity: .9;
-
       transform: scale(1.02);
+    }
+  }
+
+  .delete-image {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    opacity: .5;
+    font-size: 14px;
+    z-index: 9999;
+
+    &:hover{
+      opacity: 1;
     }
   }
 

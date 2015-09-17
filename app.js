@@ -1,10 +1,12 @@
+//The wobbler
 var drawing = false;
 var drawingThreshold = 10;
 var startX, startY,endX, endY, shape;
 var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
-var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing"]; //spin, breathe, breathe,headshake
+var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing","none"]; //spin, breathe, breathe,headshake
 
+//These specify possible origins for the animations that need them
 var animationSpec = {
   "swing" : {
     "origins" : ["bottom","left","top","right"]
@@ -14,13 +16,12 @@ var animationSpec = {
   }
 }
 
+// the different selection types
 var outlines = ["circle","square","semi-top","semi-right","semi-bottom","semi-left"];
 var origins = ["top","right","bottom","left","center"];
-var imgURL = "http://blog.hostelbookers.com/wp-content/uploads/2012/02/shoreditch-cat.jpg";
-var imgURL = "http://i2.cdnds.net/15/21/618x409/movies-mad-max-1979-mel-gibson.jpg";
-// var imgURL = "https://s-media-cache-ak0.pinimg.com/236x/af/8f/61/af8f61dfec56332eda41e8b8dd67a210.jpg";
-var imgURL = "http://i.dailymail.co.uk/i/pix/2015/05/08/13/0B9D423100000578-3073531-image-m-31_1431089651394.jpg";
 
+var imgURL = "madmax.jpg";
+// var imgURL = "http://imgur.com/Xu8bLuV"; //madmax
 
 var selectedOutline = "circle";
 var selectedAnimation = animations[0];
@@ -30,7 +31,7 @@ var isRemix = false;
 var starterImages = [
   "aken4.gif",
   "jonah.jpg",
-  "http://www.fullnetworth.com/wp-content/uploads/2015/07/Roger-Federer.jpg"
+  "http://blog.hostelbookers.com/wp-content/uploads/2012/02/shoreditch-cat.jpg"
 ];
 
 $(document).ready(function(){
@@ -41,8 +42,31 @@ $(document).ready(function(){
     //Builds the image picker
     // buildPicker();
 
+    $(window).on("keypress",function(e){
+      if(e.keyCode == 98) {
+        sendShapeToBack();
+        $(".send-to-back").addClass("activated");
+      }
+    });
+
+    $(window).on("keyup",function(e){
+      if(e.keyCode == 66) {
+        $(".send-to-back").removeClass("activated");
+      }
+    })
+
+    $(".send-to-back").on("click",function(){
+        sendShapeToBack();
+    });
+
+
     $(".start-over").on("click", function(){
         startOver();
+        return false;
+    });
+
+    $(".make-gif").on("click", function(){
+        makeGIF();
         return false;
     });
 
@@ -94,7 +118,8 @@ $(document).ready(function(){
     //Starts a shape
     $(".image").on("mousedown",function(e){
         if ($(e.target).hasClass("image")){
-            $(".selected").removeClass("selected");
+            deselectShape();
+            // $(".selected").removeClass("selected");
             startX = e.offsetX;
             startY = e.offsetY;
             drawing = true;
@@ -211,18 +236,15 @@ function updateShape(){
     shape.css("top",shapeStartY).css("bottom",imageHeight - shapeEndY);
 }
 
-function removeShape(shape){
-    shape.addClass('remove-shape');
-    setTimeout(function(){
-        shape.remove();
-    },300);
-}
-
 function endShape(){
     shape.css("background-image","url("+imgURL+")");
     var offsetX = 0 - shapeStartX;
     var offsetY = 0 - shapeStartY;
-    shape.css("background-position", offsetX + " " + offsetY);
+
+    // shape.css("background-position", offsetX + " " + offsetY);
+
+    updateBackground(shape,shapeStartY,shapeStartX);
+
     shape.addClass("animate");
     shape.attr("animation",selectedAnimation);
 
@@ -251,6 +273,7 @@ function makeShapeEditable(shape){
       start : function(event,ui){
           $(".shape.selected").removeClass("selected");
           $(event.target).addClass("selected");
+          $(".send-to-back").show();
       },
       stop: function(event,ui){
           var width = $(this).width();
@@ -293,8 +316,10 @@ function clickShape(target){
         shape.attr("animation",animations[index]);
 
     } else {
+      console.log("clickshape");
         $(".selected").removeClass("selected");
         shape.addClass("selected");
+        $(".send-to-back").show();
     }
 
     $(".animation-ui").find("[animation=" + shape.attr("animation") + "]").addClass("selected-outline");
@@ -344,11 +369,8 @@ function savePic(){
     var link = baseURL + "view.html?id=" + id;
     $(".share-link").attr("href", link).text(link).show();
 
-    // html2canvas(document.querySelector(".image"), {
-    //     onrendered: function(canvas) {
-    //         $("body").append(canvas);
-    //     }
-    // });
+
+
 }
 
 function checkRemix(){
@@ -376,11 +398,110 @@ function buildPicker(){
     });
   }
 }
+function getDataUri(url, callback) {
+    var image = new Image();
+    image.crossOrigin = "anonymous";
+
+    image.onload = function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+        canvas.getContext('2d').drawImage(this, 0, 0);
+
+        // Get raw image data
+        // callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+        // ... or get as Data URI
+        callback(canvas.toDataURL('image/png'));
+    };
+    image.src = url;
+}
+
+
+var gif = new GIF({
+  workers: 2,
+  quality: 10,
+  width: imageWidth,
+  height: imageHeight
+});
+
+var totalFrames = 16;
+
+function makeGIF(){
+
+    var img = new Image();
+    img.src = imgURL;
+    img.crossOrigin = "Anonymous";
+
+    $(".image").append(img);
+    $(".shape").append($(img).clone());
+    $(".shape").css("overflow","hidden");
+    $(".shape").css("animation-name","none");
+
+    $(".shape").each(function(){
+      $(this).find("img").css("position","absolute");
+      $(this).find("img").css("left",$(this).attr("backgroundx"));
+      $(this).find("img").css("top",$(this).attr("backgroundy"));
+    });
+
+    makeFrame(1);
+
+    $(".recording-indicator").show();
+
+     gif.on('finished', function(blob) {
+       $(".gif").attr("src",URL.createObjectURL(blob));
+
+      $(".image, .shape").css("background-image","url("+imgURL+")");
+       $(".shape").each(function(){
+         $(this).css("background-position",$(this).attr("backgroundx") + " " + $(this).attr("backgroundy"));
+       });
+       $(".image img").remove();
+       $(".shape img").remove();
+     });
+
+}
+
+//makes a frame of the gif
+function makeFrame(frame){
+  $(".shape").attr("frame","frame-" + frame);
+
+  html2canvas(document.querySelector(".image"), {
+    onrendered: function(canvas) {
+      // $("body").append(canvas);
+      // $(canvas).attr("frame",frame);
+
+      gif.addFrame(canvas, {delay: 33.3}); //75 works for a .5 transition at 8 frames
+
+      if(frame <= totalFrames) {
+        frame++;
+        makeFrame(frame);
+      }
+      if(frame == totalFrames){
+        renderGif(gif);
+      }
+    },
+    useCORS : true
+  });
+}
+
+
+function renderGif(gif){
+  gif.render();
+  $(".recording-indicator").hide();
+}
 
 function deselectShape(){
   $(".image .selected").removeClass("selected");
+  $(".send-to-back").hide();
 }
 
 function startOver() {
   $(".image .shape").remove();
+}
+
+
+function sendShapeToBack(){
+  var lowestIndex;
+  $(".image .shape").css("z-index","1000");
+  $(".shape.selected").css("z-index","1");
 }
