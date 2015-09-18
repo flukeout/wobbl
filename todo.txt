@@ -23,3 +23,20 @@ checkSendToBack() - checks if hte link to sending to back should be shown
 
 Fancy shiz
 * be able to offset the animations so they don't all run exactly the same
+
+
+GALLERY
+* Show newest first
+* Show only with wobbles
+
+
+
+BUGS
+* Large shapes that fall below the image overlap the share button, makes it hard to save stuff
+
+
+FEATURES
+*
+*
+*
+

@@ -5,7 +5,7 @@ $(document).ready(function(){
 function getImages() {
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
 
-  firebase.limitToLast(50).once("value", function(snapshot) {
+  firebase.once("value", function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       var id = childSnapshot.key();
       var childData = childSnapshot.val();

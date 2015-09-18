@@ -7,8 +7,6 @@ var imageWidth, imageHeight;
 var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing","none"]; //spin, breathe, breathe,headshake
 
 
-
-
 //These specify possible origins for the animations that need them
 var animationSpec = {
   "swing" : {
@@ -38,6 +36,10 @@ var starterImages = [
 ];
 
 $(document).ready(function(){
+
+  $(".upload-gif").on("click",function(){
+    uploadGif();
+  });
 
     //Checks if this is a remix by looking for an ID, and loads if necessary
     checkRemix();
@@ -429,39 +431,40 @@ var gif = new GIF({
   height: imageHeight
 });
 
-var totalFrames = 16;
+var totalFrames = 3;
+var blobber;
 
 function makeGIF(){
 
-    var img = new Image();
-    img.src = imgURL;
-    img.crossOrigin = "Anonymous";
+  var img = new Image();
+  img.src = imgURL;
 
-    $(".image").append(img);
-    $(".shape").append($(img).clone());
-    $(".shape").css("overflow","hidden");
-    $(".shape").css("animation-name","none");
+  $(".image").append(img);
+  $(".shape").append($(img).clone());
+  $(".shape").css("overflow","hidden");
+  $(".shape").css("animation-name","none");
 
-    $(".shape").each(function(){
-      $(this).find("img").css("position","absolute");
-      $(this).find("img").css("left",$(this).attr("backgroundx"));
-      $(this).find("img").css("top",$(this).attr("backgroundy"));
-    });
+  $(".shape").each(function(){
+    $(this).find("img").css("position","absolute");
+    $(this).find("img").css("left",$(this).attr("backgroundx"));
+    $(this).find("img").css("top",$(this).attr("backgroundy"));
+  });
 
-    makeFrame(1);
+  makeFrame(1);
 
-    $(".recording-indicator").show();
+  $(".recording-indicator").show();
 
-     gif.on('finished', function(blob) {
-       $(".gif").attr("src",URL.createObjectURL(blob));
-
-      $(".image, .shape").css("background-image","url("+imgURL+")");
-       $(".shape").each(function(){
-         $(this).css("background-position",$(this).attr("backgroundx") + " " + $(this).attr("backgroundy"));
-       });
-       $(".image img").remove();
-       $(".shape img").remove();
+  //Sets the image source for the .gif after it's finished rendering
+   gif.on('finished', function(blob) {
+     blobber = blob;
+     $(".gif").attr("src",URL.createObjectURL(blob));
+    $(".image, .shape").css("background-image","url("+imgURL+")");
+     $(".shape").each(function(){
+       $(this).css("background-position",$(this).attr("backgroundx") + " " + $(this).attr("backgroundy"));
      });
+     $(".image img").remove();
+     $(".shape img").remove();
+   });
 
 }
 
@@ -471,11 +474,7 @@ function makeFrame(frame){
 
   html2canvas(document.querySelector(".image"), {
     onrendered: function(canvas) {
-      // $("body").append(canvas);
-      // $(canvas).attr("frame",frame);
-
       gif.addFrame(canvas, {delay: 33.3}); //75 works for a .5 transition at 8 frames
-
       if(frame <= totalFrames) {
         frame++;
         makeFrame(frame);
@@ -489,9 +488,60 @@ function makeFrame(frame){
 }
 
 
+function uploadGif(){
+  var canvas = document.createElement('canvas');
+  canvas.width = 1000; // or 'width' if you want a special/scaled size
+  canvas.height = 1000; // or 'height' if you want a special/scaled size
+  var gif = document.querySelector(".gif");
+  canvas.getContext('2d').drawImage(gif, 0, 0);
+
+  var reader = new window.FileReader();
+    reader.readAsDataURL(blobber);
+    reader.onloadend = function() {
+    base64data = reader.result;
+
+    var d = base64data;
+    var d = d.replace("data:image/gif;base64","");
+    console.log(d);
+
+    $.ajax({
+        url: 'https://api.imgur.com/3/image',
+        type: 'POST',
+        headers: {
+          Authorization: "CLient-ID c57c1cf3bd35cbe",
+          Accept: 'application/json'
+        },
+        data: {
+          image: d,
+          type: 'base64'
+        },
+        success: function(result) {
+          var id = result.data.id;
+          var url = 'https://imgur.com/gallery/' + id;
+          $(".gif-wrapper").append("<a href='"+url+"'>"+url+"</a>");
+        }
+      });
+
+    }
+
+
+
+
+
+}
+
 function renderGif(gif){
+
+  $(".gif-wrapper").show();
   gif.render();
   $(".recording-indicator").hide();
+
+    // This uploads to imgur anonymously!!
+
+
+
+
+
 }
 
 function deselectShape(){
@@ -529,3 +579,4 @@ function checkSendToBack(){
     $(".send-to-back").hide();
   }
 }
+

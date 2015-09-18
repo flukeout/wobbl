@@ -16,7 +16,11 @@ function changeImage(image){
     $(".image").removeClass("image-loading");
     $(".image").css("background-image","url("+image+")");
     $(".image-source input").val(image);
-    testIfGiffable();
+
+    if(environment == "local"){
+      testIfGiffable();
+    }
+
     img.remove();
   });
 
@@ -24,24 +28,36 @@ function changeImage(image){
 }
 
 
+
 function testIfGiffable(){
 
-  var img = $("<img />");
-  img.attr("src",imgURL);
-  var canvas = document.createElement("canvas");
-  var context = canvas.getContext('2d');
-  context.drawImage(img[0], 69, 50);
-  var canGif = true;
+  var img = new Image();
 
-  try {
-    var pixel = context.getImageData(0, 0, 1, 1);
-  } catch(err) {
-    canGif = false;
-  }
+  var canGif = false;
 
-  if(!canGif){
-    $(".make-gif").hide();
-  }
+  $(img).on("load",function(){
+    var canvas = document.querySelector(".test-canvas");
+    var context = canvas.getContext('2d');
+    context.drawImage(img, 69, 50);
+
+    try {
+      var pixel = context.getImageData(0, 0, 1, 1);
+      canGif = true;
+    } catch(err) {
+      canGif = false;
+    }
+
+    if(!canGif){
+      $(".make-gif").hide();
+    } else {
+      $(".make-gif").show();
+    }
+
+  });
+
+  img.crossOrigin = "Anonymous";
+  img.src = imgURL;
+
 
 }
 
