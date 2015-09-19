@@ -30,7 +30,6 @@ GALLERY
 * Show only with wobbles
 
 
-
 BUGS
 * Large shapes that fall below the image overlap the share button, makes it hard to save stuff
 

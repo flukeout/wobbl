@@ -74,6 +74,9 @@ function buildImageGallery(face,id){
     newShape.css("height",shapeData.height);
     newShape.css("background-image","url("+face.imageURL+")");
 
+
+    newShape.css("z-index",shapeData.z || 9999);
+
     if(shapeData.origin){
       newShape.attr("origin",shapeData.origin);
     }

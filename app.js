@@ -4,7 +4,7 @@ var drawingThreshold = 10;
 var startX, startY,endX, endY, shape;
 var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
-var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing","none"]; //spin, breathe, breathe,headshake
+var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing","none"]; //spin, breathe
 
 
 //These specify possible origins for the animations that need them
@@ -39,6 +39,7 @@ $(document).ready(function(){
 
   $(".upload-gif").on("click",function(){
     uploadGif();
+    return false;
   });
 
     //Checks if this is a remix by looking for an ID, and loads if necessary
@@ -61,25 +62,23 @@ $(document).ready(function(){
     })
 
     $(".send-to-back").on("click",function(){
-        sendShapeToBack();
-        return false;
+      sendShapeToBack();
+      return false;
     });
 
-
     $(".start-over").on("click", function(){
-        startOver();
-        return false;
+      startOver();
+      return false;
     });
 
     $(".make-gif").on("click", function(){
-        makeGIF();
-        return false;
+      makeGIF();
+      return false;
     });
 
-
     $(".share").on("click", function(){
-        savePic();
-        return false;
+      savePic();
+      return false;
     });
 
     imageWidth = $(".image").width();
@@ -98,7 +97,6 @@ $(document).ready(function(){
       $(".image-source").toggleClass("collapsed");
       $(".image-source input").focus();
     });
-
 
     $(".pick").on("click",function(){
       $(".image-source").toggleClass("collapsed");
@@ -123,29 +121,29 @@ $(document).ready(function(){
 
     //Starts a shape
     $(".image").on("mousedown",function(e){
-        if ($(e.target).hasClass("image")){
-            deselectShape();
-            startX = e.offsetX;
-            startY = e.offsetY;
-            drawing = true;
-            $(".ftu-on").removeClass("ftu-on");
+      if ($(e.target).hasClass("image")){
+        deselectShape();
+        startX = e.offsetX;
+        startY = e.offsetY;
+        drawing = true;
+        $(".ftu-on").removeClass("ftu-on");
 
-            shape = $("<div class='shape selected'><div class='lock'></div></div>");
-            shape.css("z-index",9999);
-            shape.attr("z",9999);
-            shape.attr("outline",selectedOutline);
-            $(".image").append(shape);
-            updateShape();
-        }
+        shape = $("<div class='shape selected'><div class='lock'></div></div>");
+        shape.css("z-index",9999);
+        shape.attr("z",9999);
+        shape.attr("outline",selectedOutline);
+        $(".image").append(shape);
+        updateShape();
+      }
     });
 
     $(".image").on("mousemove",function(e){
-        var imagePosition = $(".image").offset();
-        endX = e.pageX - imagePosition.left;
-        endY = e.pageY - imagePosition.top;
-        if(drawing == true){
-            updateShape(shape);
-        }
+      var imagePosition = $(".image").offset();
+      endX = e.pageX - imagePosition.left;
+      endY = e.pageY - imagePosition.top;
+      if(drawing == true){
+        updateShape(shape);
+      }
     });
 
     $("body").on("mouseup",function(e){
@@ -172,28 +170,26 @@ function buildAnimationUI() {
 
         newEl.attr("animation",animations[i]);
         newEl.on("click",function(){
-            selectedAnimation = $(this).attr("animation");
-            $(".selected").attr("animation",selectedAnimation);
+          selectedAnimation = $(this).attr("animation");
+          $(".selected").attr("animation",selectedAnimation);
 
-            if($(this).hasClass("selected-outline") && $(this).attr("origin")){
-              var currentOrigin = $(this).attr("origin");
-              var possibleOrigins = animationSpec[$(this).attr("animation")].origins;
-              var originIndex = possibleOrigins.indexOf(currentOrigin);
-              originIndex++;
-              if(originIndex >= possibleOrigins.length ){
-                originIndex = 0;
-              }
-              $(".selected").attr("origin",possibleOrigins[originIndex]);
-              $(this).attr("origin",possibleOrigins[originIndex]);
+          if($(this).hasClass("selected-outline") && $(this).attr("origin")){
+            var currentOrigin = $(this).attr("origin");
+            var possibleOrigins = animationSpec[$(this).attr("animation")].origins;
+            var originIndex = possibleOrigins.indexOf(currentOrigin);
+            originIndex++;
+            if(originIndex >= possibleOrigins.length ){
+              originIndex = 0;
             }
+            $(".selected").attr("origin",possibleOrigins[originIndex]);
+            $(this).attr("origin",possibleOrigins[originIndex]);
+          }
 
-            if($(this).attr("origin")){
-              $(".selected").attr("origin",$(this).attr("origin"));
-            } else {
-              $(".selected").removeAttr("origin");
-            }
-
-
+          if($(this).attr("origin")){
+            $(".selected").attr("origin",$(this).attr("origin"));
+          } else {
+            $(".selected").removeAttr("origin");
+          }
         });
     }
 }
@@ -431,7 +427,7 @@ var gif = new GIF({
   height: imageHeight
 });
 
-var totalFrames = 3;
+var totalFrames = 17;
 var blobber;
 
 function makeGIF(){
@@ -455,20 +451,20 @@ function makeGIF(){
   $(".recording-indicator").show();
 
   //Sets the image source for the .gif after it's finished rendering
-   gif.on('finished', function(blob) {
-     blobber = blob;
-     $(".gif").attr("src",URL.createObjectURL(blob));
+  gif.on('finished', function(blob) {
+    blobber = blob;
+    $(".gif").attr("src",URL.createObjectURL(blob));
     $(".image, .shape").css("background-image","url("+imgURL+")");
-     $(".shape").each(function(){
-       $(this).css("background-position",$(this).attr("backgroundx") + " " + $(this).attr("backgroundy"));
-     });
-     $(".image img").remove();
-     $(".shape img").remove();
-   });
-
+    $(".shape").each(function(){
+      $(this).css("background-position",$(this).attr("backgroundx") + " " + $(this).attr("backgroundy"));
+      $(this).css("animation-name","");
+    });
+    $(".image img").remove();
+    $(".shape img").remove();
+  });
 }
 
-//makes a frame of the gif
+//Makes a frame of the gif
 function makeFrame(frame){
   $(".shape").attr("frame","frame-" + frame);
 
@@ -524,24 +520,12 @@ function uploadGif(){
 
     }
 
-
-
-
-
 }
 
 function renderGif(gif){
-
   $(".gif-wrapper").show();
   gif.render();
   $(".recording-indicator").hide();
-
-    // This uploads to imgur anonymously!!
-
-
-
-
-
 }
 
 function deselectShape(){
