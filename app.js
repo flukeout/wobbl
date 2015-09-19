@@ -111,24 +111,27 @@ $(document).ready(function(){
     });
 
     $(".outline").on("click",function(e){
-        $(this).closest(".options-ui").find(".selected-outline").removeClass("selected-outline");
-        $(e.target).addClass("selected-outline");
+      $(this).closest(".options-ui").find(".selected-outline").removeClass("selected-outline");
+      $(e.target).addClass("selected-outline");
     });
 
     $(".image").on("click",".shape",function(e){
-        clickShape(e.target);
+      clickShape(e.target);
     });
 
     //Starts a shape
     $(".image").on("mousedown",function(e){
       if ($(e.target).hasClass("image")){
         deselectShape();
+
         startX = e.offsetX;
         startY = e.offsetY;
+
         drawing = true;
+
         $(".ftu-on").removeClass("ftu-on");
 
-        shape = $("<div class='shape selected'><div class='lock'></div></div>");
+        shape = $("<div class='shape selected'><div class='animation-container'></div></div>");
         shape.css("z-index",9999);
         shape.attr("z",9999);
         shape.attr("outline",selectedOutline);
@@ -240,13 +243,14 @@ function updateShape(){
     shape.css("top",shapeStartY).css("bottom",imageHeight - shapeEndY);
 }
 
+//Ends a shape that is being drawn
 function endShape(){
     drawing = false;
-    shape.css("background-image","url("+imgURL+")");
+    shape.find(".animation-container").css("background-image","url("+imgURL+")");
     var offsetX = 0 - shapeStartX;
     var offsetY = 0 - shapeStartY;
 
-    updateBackground(shape,shapeStartY,shapeStartX);
+    updateBackground(shape.find(".animation-container"),shapeStartY,shapeStartX);
 
     shape.addClass("animate");
     shape.attr("animation",selectedAnimation);
@@ -297,16 +301,17 @@ function makeShapeEditable(shape){
       drag: function(event,ui){
           var top = ui.position.top;
           var left = ui.position.left;
-          updateBackground($(".selected"),top,left)
+          updateBackground($(".selected .animation-container"),top,left)
       }
   });
 }
 
 
 // Changes the animation of a shape when you click it
+// Selects the shape if it isn't selected
+// Changes the animation if it's already selected
 function clickShape(target){
-    var shape = $(target);
-
+    var shape = $(target).closest(".shape");
     var outline = shape.attr("outline");
 
     $(".selected-outline").removeClass("selected-outline");
@@ -529,6 +534,8 @@ function renderGif(gif){
 }
 
 function deselectShape(){
+  console.log("deselect?");
+
   $(".image .selected").removeClass("selected");
   checkSendToBack();
 }

@@ -24,7 +24,6 @@ checkSendToBack() - checks if hte link to sending to back should be shown
 Fancy shiz
 * be able to offset the animations so they don't all run exactly the same
 
-
 GALLERY
 * Show newest first
 * Show only with wobbles
@@ -39,3 +38,11 @@ FEATURES
 *
 *
 
+
+<div class="shape">
+  <div class="animation-container"></div>
+  <div class="selected-outline"></div> <-- :after element
+</div>
+
+For the editor, we need to nest the animations into a wrapper container, so that the resizing can work.
+But not for the rendered view mode.
