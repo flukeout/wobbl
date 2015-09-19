@@ -29,13 +29,15 @@ GALLERY
 * Show newest first
 * Show only with wobbles
 
-
 BUGS
 * Large shapes that fall below the image overlap the share button, makes it hard to save stuff
 
-
 FEATURES
 *
-*
-*
 
+QUESTIONS
+* Should clicking from the gallery just go to the Remix view right away?
+
+GOOD WOBBLES
+* han solo with gun
+* pulp fiction eating burger

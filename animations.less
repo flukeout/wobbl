@@ -402,3 +402,189 @@
   .generate-spin(@n, (@i + 1));
 }
 
+
+
+[animation=mouth] .animation-container {
+  animation-name: mouth;
+  animation-duration:  .3s;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+}
+
+@keyframes mouth {
+  0% {
+    transform: scaleY(.9);
+  }
+  50%{
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(.9);
+  }
+}
+
+
+[animation=mouth] {
+  animation-name: mouth;
+  animation-duration:  .3s;
+  animation-iteration-count: infinite;
+  transform-origin: center;
+}
+
+@keyframes mouth {
+  0% {
+    transform: scaleY(.9);
+  }
+  50%{
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(.9);
+  }
+}
+
+[animation=mouth] {
+
+  &[frame=frame-1] {
+    transform: scaleY(.9);
+  }
+  &[frame=frame-2] {
+    transform: scaleY(.99);
+  }
+  &[frame=frame-3] {
+    transform: scaleY(1.05);
+  }
+  &[frame=frame-4] {
+    transform: scaleY(1.09);
+  }
+  &[frame=frame-5] {
+    transform: scaleY(1.1);
+  }
+  &[frame=frame-6] {
+    transform: scaleY(1.09);
+  }
+  &[frame=frame-7] {
+    transform: scaleY(1.05);
+  }
+  &[frame=frame-8] {
+    transform: scaleY(.99);
+  }
+
+  &[frame=frame-9] {
+    transform: scaleY(.9);
+  }
+  &[frame=frame-10] {
+    transform: scale(.99);
+  }
+  &[frame=frame-11] {
+    transform: scaleY(1.05);
+  }
+  &[frame=frame-12] {
+    transform: scaleY(1.09);
+  }
+  &[frame=frame-13] {
+    transform: scaleY(1.1);
+  }
+  &[frame=frame-14] {
+    transform: scaleY(1.09);
+  }
+  &[frame=frame-15] {
+    transform: scaleY(1.05);
+  }
+  &[frame=frame-16] {
+    transform: scaleY(.99);
+  }
+}
+
+
+[animation=wobble] {
+  animation-name: wobble;
+  animation-duration:  .2s;
+  animation-iteration-count: infinite;
+
+  &[frame=frame-1],&[frame=frame-9] {
+    transform: rotate(0);
+  }
+  &[frame=frame-2],&[frame=frame-10] {
+    transform: rotate(-1deg);
+  }
+  &[frame=frame-3],&[frame=frame-11] {
+    transform: rotate(-2deg);
+  }
+  &[frame=frame-4],&[frame=frame-12] {
+    transform: rotate(-1deg);
+  }
+  &[frame=frame-5],&[frame=frame-13] {
+    transform: rotate(0);
+  }
+  &[frame=frame-6],&[frame=frame-14] {
+    transform: rotate(1deg);
+  }
+  &[frame=frame-7],&[frame=frame-15] {
+    transform: rotate(2deg);
+  }
+  &[frame=frame-8],&[frame=frame-16] {
+    transform: rotate(1deg);
+  }
+}
+
+@keyframes wobble {
+    0% {
+        transform: rotate(0);
+    }
+    25%{
+        transform: rotate(-2deg);
+    }
+    75%{
+        transform: rotate(2deg);
+    }
+    100% {
+        transform: rotate(0);
+    }
+}
+
+
+
+
+[animation=eyebrows] {
+    animation-name: eyebrows;
+    animation-duration:  .2s;
+    animation-iteration-count: infinite;
+  }
+
+  &[frame=frame-1],&[frame=frame-9] {
+    transform: scaleY(.9);
+  }
+  &[frame=frame-2],&[frame=frame-10] {
+    transform: scaleY(.96);
+  }
+  &[frame=frame-3],&[frame=frame-11] {
+    transform: scaleY(1);
+  }
+  &[frame=frame-4],&[frame=frame-12] {
+    transform: scaleY(1.02);
+  }
+  &[frame=frame-5],&[frame=frame-13] {
+    transform: scaleY(1.03); //midpoint
+  }
+  &[frame=frame-6],&[frame=frame-14] {
+    transform: scaleY(1.02);
+  }
+  &[frame=frame-7],&[frame=frame-15] {
+    transform: scaleY(1);
+  }
+  &[frame=frame-8],&[frame=frame-16] {
+    transform: scaleY(.96);
+  }
+
+@keyframes eyebrows {
+  0% {
+    transform: scaleY(.9);
+  }
+  50%{
+    transform: scaleY(1.03);
+  }
+  100% {
+    transform: scaleY(.9);
+  }
+}
