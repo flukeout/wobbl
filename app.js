@@ -329,7 +329,7 @@ function clickShape(target){
   }
 
 
-var firebase = new Firebase("https://facejam.firebaseio.com/");
+var firebase = new Firebase("https://facejam.firebaseio.com/" + fireBaseLocation);
 
 function savePic(){
     var savedPic = {};
@@ -359,8 +359,9 @@ function savePic(){
     var hashids = new Hashids("Hello World");
     var id = hashids.encode(parseInt(Math.random() * 99), parseInt(Math.random() * 99));
 
-    var facesRef = firebase.child("faces");
-    facesRef.child(id).set(savedPic);
+    savedPic.id = id;
+
+    var facesRef = firebase.push(savedPic);
 
     if(environment == "local") {
         var baseURL = "http://localhost:8080/";
@@ -380,7 +381,6 @@ function checkRemix(){
   if(faceID) {
     isRemix = true;
     getImage(faceID);
-
     $(".ftu-on").removeClass("ftu-on");
 
   } else {

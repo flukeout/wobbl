@@ -2,6 +2,8 @@ var environment;
 var isRemix = false;
 checkEnvironment();
 
+var fireBaseLocation = "newFaces"; //faces
+
 //Changes the image being edited or viewed
 function changeImage(image){
   var img = $("<img class='test-image' />");
@@ -87,16 +89,9 @@ function removeShape(shape){
     },300);
 }
 
-function getImage(id) {
-  var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
-  firebase.once("value", function(snapshot) {
-    var nameSnapshot = snapshot.child(id);
-    var face = nameSnapshot.val();
-    buildImage(face);
-  });
-}
-
 function buildImage(face){
+  console.log("BuildImage");
+  console.log(face.imageURL);
   changeImage(face.imageURL);
 
   if(!face.shapes){
@@ -161,4 +156,23 @@ function getFaceURL(id,type){
     URL = "http://flukeout.github.io/wobbl/"+ view +"?id=" + id;
   }
   return URL;
+}
+
+function getImage(id) {
+  var firebase = new Firebase("https://facejam.firebaseio.com/"+fireBaseLocation);
+
+  firebase.orderByChild("id").equalTo(id).once("value", function(snapshot) {
+    var j = snapshot.val();
+    console.log();
+    // console.log(j.height);
+
+    // var nameSnapshot = snapshot.ref();
+    // nameSnapshot.once("value",function(blam){
+    //   console.log(blam.val());
+    // })
+    // console.log(nameSnapshot);
+    // console.log(nameSnapshot.val());
+    // console.log(nameSnapshot);
+
+  });
 }

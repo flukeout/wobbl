@@ -3,24 +3,26 @@ $(document).ready(function(){
 });
 
 function getImages() {
-  var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
+  var firebase = new Firebase("https://facejam.firebaseio.com/"+ fireBaseLocation +"/");
 
   firebase.once("value", function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
-      var id = childSnapshot.key();
+
       var childData = childSnapshot.val();
-      buildImageGallery(childData,id);
+      var key = childSnapshot.key();
+      var id = childData.id;
+      buildImageGallery(childData,key);
     });
   });
 }
 
-function deleteImage(id){
-  var firebase = new Firebase("https://facejam.firebaseio.com/faces/"+id);
+function deleteImage(key){
+  var firebase = new Firebase("https://facejam.firebaseio.com/"+fireBaseLocation+"/"+key);
   firebase.remove();
 }
 
 //Builds each image for the gallery
-function buildImageGallery(face,id){
+function buildImageGallery(face,key){
   var newImage = $("<a class='image'></a>");
   var newImageWrapper = $("<div class='image-wrapper'></div>");
 
@@ -31,12 +33,12 @@ function buildImageGallery(face,id){
 
     deleteLink.on("click",function(){
       removeShape($(this).closest(".image-wrapper"));
-      deleteImage(id);
+      deleteImage(key);
       return false;
     });
   }
 
-  newImage.attr("href",getFaceURL(id,"view"));
+  newImage.attr("href",getFaceURL(face.id,"view"));
   newImage.css("background-image","url("+face.imageURL+")");
 
   var img = $("<img/>");
