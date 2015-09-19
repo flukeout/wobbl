@@ -432,7 +432,6 @@ var blobber;
 
 function makeGIF(){
 
-
   var img = new Image();
   img.src = imgURL;
 
@@ -442,6 +441,13 @@ function makeGIF(){
   $(".shape").css("animation-name","none");
 
   $(".shape").each(function(){
+    var that = $(this);
+
+    if(that.attr("outline") == "circle"){
+      var borderRadius = that.width()/2 + "px/" + that.height()/2 + "px";
+      that.css("border-radius",borderRadius);
+    }
+
     $(this).find("img").css("position","absolute");
     $(this).find("img").css("left",$(this).attr("backgroundx"));
     $(this).find("img").css("top",$(this).attr("backgroundy"));
