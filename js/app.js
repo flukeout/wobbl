@@ -420,17 +420,18 @@ function getDataUri(url, callback) {
 }
 
 
-var gif = new GIF({
-  workers: 2,
-  quality: 10,
-  width: imageWidth,
-  height: imageHeight
-});
-
+var gif;
 var totalFrames = 16;
 var blobber;
 
 function makeGIF(){
+
+  gif = new GIF({
+    workers: 2,
+    quality: 10,
+    width: imageWidth,
+    height: imageHeight
+  });
 
   var img = new Image();
   img.src = imgURL;
@@ -465,6 +466,7 @@ function makeGIF(){
     $(".shape").each(function(){
       $(this).css("background-position",$(this).attr("backgroundx") + " " + $(this).attr("backgroundy"));
       $(this).css("animation-name","");
+      $(this).css("border-radius","");
     });
     $(".image img").remove();
     $(".shape img").remove();
