@@ -419,9 +419,8 @@ function getDataUri(url, callback) {
     image.src = url;
 }
 
-
 var gif;
-var totalFrames = 16;
+var totalFrames = 16; //16
 var blobber;
 
 function makeGIF(){
@@ -440,13 +439,43 @@ function makeGIF(){
   $(".shape").append($(img).clone());
   $(".shape").css("overflow","hidden");
   $(".shape").css("animation-name","none");
+  $(".shape.selected .ui-resizable-handle").hide();
 
   $(".shape").each(function(){
     var that = $(this);
 
+    //Do the nice border radiuses for the canvas converter
     if(that.attr("outline") == "circle"){
       var borderRadius = that.width()/2 + "px/" + that.height()/2 + "px";
       that.css("border-radius",borderRadius);
+    }
+
+    if(that.attr("outline") == "semi-top"){
+      var borderRadius = that.width()/2 + "px/" + that.height()/2 + "px";
+      that.css("border-radius",borderRadius);
+      that.css("border-bottom-left-radius","0");
+      that.css("border-bottom-right-radius","0");
+    }
+
+    if(that.attr("outline") == "semi-bottom"){
+      var borderRadius = that.width()/2 + "px/" + that.height()/2 + "px";
+      that.css("border-radius",borderRadius);
+      that.css("border-top-right-radius","0");
+      that.css("border-top-left-radius","0");
+    }
+
+    if(that.attr("outline") == "semi-left"){
+      var borderRadius = that.width()/2 + "px/" + that.height()/2 + "px";
+      that.css("border-radius",borderRadius);
+      that.css("border-top-right-radius","0");
+      that.css("border-bottom-right-radius","0");
+    }
+
+    if(that.attr("outline") == "semi-right"){
+      var borderRadius = that.width()/2 + "px/" + that.height()/2 + "px";
+      that.css("border-radius",borderRadius);
+      that.css("border-top-left-radius","0");
+      that.css("border-bottom-left-radius","0");
     }
 
     $(this).find("img").css("position","absolute");
@@ -458,6 +487,7 @@ function makeGIF(){
 
   $(".recording-indicator").show();
 
+  //Cleans it up
   //Sets the image source for the .gif after it's finished rendering
   gif.on('finished', function(blob) {
     blobber = blob;
@@ -467,7 +497,13 @@ function makeGIF(){
       $(this).css("background-position",$(this).attr("backgroundx") + " " + $(this).attr("backgroundy"));
       $(this).css("animation-name","");
       $(this).css("border-radius","");
+      $(this).css("border-bottom-right-radius","");
+      $(this).css("border-bottom-left-radius","");
+      $(this).css("border-top-right-radius","");
+      $(this).css("border-top-left-radius","");
     });
+    $(".shape").css("overflow","");
+    $(".shape .selected .ui-resizable-handle").show();
     $(".image img").remove();
     $(".shape img").remove();
   });

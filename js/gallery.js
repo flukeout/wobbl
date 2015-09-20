@@ -21,8 +21,46 @@ function deleteImage(id){
   firebase.remove();
 }
 
+function likeImage(id,heart){
+  var firebase = new Firebase("https://facejam.firebaseio.com/faces/"+id);
+
+  //Get your likes
+  var liked = JSON.parse(localStorage.getItem("liked")) || [];
+
+  var likedAlready = true;
+  if(liked.indexOf(id) < 0){
+    likedAlready = false;
+  }
+
+  if(likedAlready){
+    liked.splice(liked.indexOf(id), 1);
+    heart.removeClass("active");
+  } else {
+    heart.addClass("active");
+    liked.push(id);
+  }
+
+  firebase.once("value", function(snapshot) {
+    var data = snapshot.val();
+    var likes = data.likes || 0;
+    if(likedAlready){
+      likes--;
+    } else {
+      likes++;
+    }
+    var ref = snapshot.ref();
+    ref.update({"likes":likes});
+    heart.find(".count").text(likes);
+  });
+
+  localStorage.setItem("liked",JSON.stringify(liked));
+
+
+}
+
 //Builds each image for the gallery
 function buildImageGallery(face,id){
+  var liked = JSON.parse(localStorage.getItem("liked")) || [];
   var newImage = $("<a class='image'></a>");
   var newImageWrapper = $("<div class='image-wrapper'></div>");
 
@@ -37,6 +75,20 @@ function buildImageGallery(face,id){
       return false;
     });
   }
+
+  var likeLink = $("<div class='like-wrapper'><span class='count'>0</span><a class='like-image'></a></div>");
+
+  if(liked.indexOf(id) > -1){
+    likeLink.addClass("active");
+    likeLink.find(".count").text(face.likes || 0);
+  }
+
+  newImageWrapper.append(likeLink);
+
+  likeLink.on("click",function(){
+    likeImage(id,$(this));
+    return false;
+  });
 
   newImage.attr("href",getFaceURL(id,"view"));
   newImage.css("background-image","url("+face.imageURL+")");

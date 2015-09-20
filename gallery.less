@@ -19,9 +19,13 @@
     cursor: pointer;
     transition: transform .2s ease-out;
 
+
     &:hover {
-      opacity: .9;
-      transform: scale(1.02);
+      // outline: 5px solid rgba(255,255,255,.4);
+      // transform: scale(1.02);
+      .image {
+        // transform: scale(1.5);
+      }
     }
   }
 
@@ -45,3 +49,83 @@
     transform-origin: top left;
   }
 }
+
+.like-wrapper {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  z-index: 100000;
+  height: 20px;
+  width: 40px;
+  height: 40px;
+
+  .count {
+    position: absolute;
+    color: white;
+    text-shadow: 0px 1px 0px rgba(0,0,0,.2);
+    top: 9px;
+    left: 0;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    z-index: 999999999;
+  }
+
+  &.active {
+    .like-image {
+      background: #e03232;
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    .like-image {
+      opacity: .8;
+      background: #e03232;
+      transform: rotate(45deg) scale(1.04);
+    }
+  }
+
+  .like-image {
+    height: 20px;
+    width: 20px;
+
+    background: black;
+    opacity: .2;
+    position: absolute;
+    top: 10px;
+    left: 10px;;
+
+    transform: rotate(45deg);
+    border-radius:  10px 0 0 0;
+    box-sizing: border-box;
+
+
+
+    &:before {
+      content: "";
+      height: 100%;
+      width: 100%;
+      background: inherit;
+      position: absolute;
+      top: 0;
+      left: -50%;
+      border-radius: 100%;
+    }
+
+    &:after {
+      border-radius: 100%;
+      content: "";
+      height: 100%;
+      width: 100%;
+      background: inherit;
+      position: absolute;
+      top: -50%;
+      left: 0;
+    }
+
+
+  }
+
+}
+
