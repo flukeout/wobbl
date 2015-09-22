@@ -308,7 +308,7 @@ function makeShapeEditable(shape){
 // Changes the animation of a shape when you click it
 function clickShape(target){
     var shape = $(target);
-    console.log(shape.attr("animation"),shape.attr("outline"));
+
 
     var outline = shape.attr("outline");
 
@@ -328,8 +328,8 @@ function clickShape(target){
     }
 
 
-    // $(".animation-ui").find("[animation=" + shape.attr("animation") + "]").addClass("selected-outline");
-    // $(".shape-ui").find("[outline=" + shape.attr("outline") + "]").addClass("selected-outline");
+    $(".animation-ui").find("[animation=" + shape.attr("animation") + "]").addClass("selected-outline");
+    $(".shape-ui").find("[outline=" + shape.attr("outline") + "]").addClass("selected-outline");
   }
 
 

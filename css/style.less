@@ -61,7 +61,6 @@ body {
   cursor: pointer;
 }
 
-
 .outline {
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -140,8 +139,6 @@ body {
 
   .outline {
     background: white;
-    // transition: opacity .1s ease-out;
-
   }
 }
 
@@ -165,9 +162,6 @@ body {
 
 }
 
-[animation=none] {
-  animation-name: none;
-}
 
 [outline=square] {
   border-radius: 0;
@@ -248,79 +242,6 @@ body {
   box-sizing: border-box;
   border-radius: 100%;
   position: absolute;
-
-}
-
-
-[animation=swing] {
-  animation-name: nonono;
-  animation-duration:  .5s;
-  animation-iteration-count: infinite;
-}
-
-@keyframes nonono {
-    0% {
-        transform: rotate(0);
-        animation-timing-function: ease-out;
-    }
-    25%{
-        transform: rotate(5deg);
-        animation-timing-function: ease-in;
-    }
-    50% {
-        transform: rotate(0);
-        animation-timing-function: ease-out;
-    }
-    75%{
-        transform: rotate(-5deg);
-        animation-timing-function: ease-in;
-    }
-    100% {
-        transform: rotate(0);
-    }
-}
-
-
-[animation=vibrate] {
-    animation-name: vibrate;
-    animation-duration:  .07s;
-    animation-iteration-count: infinite;
-    transform-origin: bottom;
-}
-
-@keyframes vibrate {
-    0% {
-        transform: rotate(0) translateY(2px);
-    }
-    25%{
-        transform: rotate(1deg) translateX(-2px);
-    }
-    50%{
-        transform: rotate(0deg) translateX(2px);
-    }
-    75%{
-        transform: rotate(-2deg);
-    }
-    100% {
-        transform: rotate(0) translateY(-2px);
-    }
-}
-
-[animation=spin] {
-    animation-name: spin;
-    animation-duration:  .5s;
-    animation-iteration-count: infinite;
-    transform-origin: center;
-    animation-timing-function: linear;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
 }
 
 .remove-shape {
@@ -414,18 +335,10 @@ body {
 
 }
 
-.vibrate {
-  animation-name: vibrate;
-  animation-duration:  .07s;
-  animation-iteration-count: infinite;
-  transform-origin: bottom;
-}
-// Change image link
-
+// Change image
 .change {
   color: white;
   font-size: 14px;
-
   text-decoration: none;
 }
 
@@ -892,16 +805,12 @@ canvas {
     margin: 0 auto;
     margin-bottom: 15px;
   }
-
-
 }
 
 .regular-link {
   color: white;
   opacity: .6;
   text-decoration: none;
-
-
 
   &:hover {
     opacity: 1;
@@ -910,4 +819,11 @@ canvas {
 
 .make-gif {
   display: none;
+}
+
+.vibrate {
+  animation-name: vibrate;
+  animation-duration:  .07s;
+  animation-iteration-count: infinite;
+  transform-origin: bottom;
 }

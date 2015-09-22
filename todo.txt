@@ -26,11 +26,14 @@ FANCY SHIZ
 QUESTIONS
 * Should clicking from the gallery just go to the Remix view right away?
 
-GOOD WOBBLES
-* han solo with gun
-* pulp fiction eating burger
-* shit w gotta reproduce
+GOOD WOBBLES TO REMAKE
+*
 
 TODO
 * Fix the thing where if the image is narrow, it expands to accomodate the send to back link
 * limit picker images to those only with likes?
+* Less mixin for all of the animation styles
+* Try not to show duplicates side by side in the gallery if they're the same
+* Make it so that when the gallery is loading, the images don't start out tiny until they load
+  (makes it kind of jarring when the happens.
+*

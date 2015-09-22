@@ -1,18 +1,40 @@
+var galleryType;
+
 $(document).ready(function(){
+
+  galleryType = getParameterByName('show') || "best";
+  $(".nav-selected").removeClass(".nav-selected");
+  if(galleryType == "best"){
+    $(".nav .best-wobbles").addClass("nav-selected");
+  } else {
+    $(".nav .newest-wobbles").addClass("nav-selected");
+  }
   getImages();
+
 });
+
 
 function getImages() {
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
   var count = 0;
 
-  firebase.orderByChild("likes").limitToLast(100).once("value", function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      var id = childSnapshot.key();
-      var childData = childSnapshot.val();
-      buildImageGallery(childData,id);
+  if(galleryType == "best") {
+    firebase.orderByChild("likes").limitToLast(100).once("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var id = childSnapshot.key();
+        var childData = childSnapshot.val();
+        buildImageGallery(childData,id);
+      });
     });
-  });
+  } else {
+    firebase.orderByChild("savedAt").limitToLast(100).once("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var id = childSnapshot.key();
+        var childData = childSnapshot.val();
+        buildImageGallery(childData,id);
+      });
+    });
+  }
 }
 
 function deleteImage(id){
@@ -96,6 +118,7 @@ function buildImageGallery(face,id){
 
   var img = $("<img/>");
   img.attr("src",face.imageURL);
+  console.log(face.imageURL);
 
   $("body").append(img);
 

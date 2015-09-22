@@ -1,4 +1,5 @@
 var faceID;
+
 $(document).ready(function(){
   faceID = getParameterByName('id');
   getImage(faceID);
