@@ -262,10 +262,10 @@ function endShape(){
 
     if(avgDelta < 10 ){
       shape.remove();
-      checkSendToBack();
     }
 
     checkShareUI();
+    checkSendToBack();
 }
 
 function makeShapeEditable(shape){
@@ -397,7 +397,6 @@ function getStarters(){
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
   var count = 0;
   firebase.orderByChild("likes").limitToLast(15).once("value", function(snapshot) {
-
   // firebase.orderByChild("likes").startAt(1).limitToLast(15).once("value", function(snapshot) {
     buildPicker(snapshot.val());
   });

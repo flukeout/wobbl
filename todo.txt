@@ -32,6 +32,5 @@ GOOD WOBBLES
 * shit w gotta reproduce
 
 TODO
-* Have some good starting points!
-* What would really do it
 * Fix the thing where if the image is narrow, it expands to accomodate the send to back link
+* limit picker images to those only with likes?
