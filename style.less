@@ -140,11 +140,7 @@ body {
 
   .outline {
     background: white;
-    transition: opacity .1s ease-out;
-
-    &[animation=none] {
-
-    }
+    // transition: opacity .1s ease-out;
 
   }
 }
@@ -525,26 +521,93 @@ body {
 
 .image-picker {
   padding: 30px;
-  background: black;
+  background: rgba(0,0,0,.6);
+  background: rgba(7,79,131,.9);
   overflow: auto;
-  margin-top: 30px;
+  position: absolute;
+  top: 62px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999999999;
+
+  h2 {
+    color: rgba(255,255,255,.8);
+    margin: 0;
+    padding: 0;
+    padding: 15px 0;
+    margin-bottom: 20px;
+  }
+
+  .wobble {
+    .vibrate;
+  }
+
+  .image-by-url {
+    color: white;
+    font-size: 18px;
+    color: rgba(255,255,255,.4);
+
+    input {
+      outline: none;
+      background: none;
+      border: none;
+      border-bottom: solid 2px rgba(255,255,255,.5);
+      font-size: 18px;
+      color: white;
+      padding-bottom: 3px;
+      width: 350px;
+      margin: 0 0 0 5px;
+    }
+
+    a {
+      color: inherit;
+      outline: none;
+      text-decoration: none;
+      opacity: .4;
+      color: rgba(7,79,131,.9);
+      background: white;
+      padding: 5px 8px;
+      margin-right: 10px;
+
+      &:hover{
+        opacity: 1;
+      }
+    }
+  }
+
+  .image-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    margin-top: 40px;
+
+    img {
+      height: 200px;
+    }
+  }
 
   .image-option {
-    height: 100px;
-    opacity: .8;
-    width: 100px;
     cursor: pointer;
     float: left;
     background-size: cover;
     background-position: center;
     margin: 10px;
+    transition: transform .1s ease-out;
+
+    &:hover {
+      transform: scale(1.02);
+      .vibrate;
+    }
   }
 
 }
 
 
 .shape {
-
   .origin {
     height: 26px;
     width: 26px;

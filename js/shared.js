@@ -4,6 +4,7 @@ checkEnvironment();
 
 //Changes the image being edited or viewed
 function changeImage(image){
+  $(".image-picker").hide();
   var img = $("<img class='test-image' />");
   img.attr("src",image);
   imgURL = image;
@@ -106,6 +107,8 @@ function removeShape(shape){
 }
 
 function getImage(id) {
+
+
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
   firebase.once("value", function(snapshot) {
     var nameSnapshot = snapshot.child(id);
@@ -115,6 +118,7 @@ function getImage(id) {
 }
 
 function buildImage(face){
+
   changeImage(face.imageURL);
 
   if(!face.shapes){

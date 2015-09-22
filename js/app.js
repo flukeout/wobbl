@@ -16,12 +16,10 @@ var animationSpec = {
   }
 }
 
-// the different selection types
 var outlines = ["circle","square","semi-top","semi-right","semi-bottom","semi-left"];
 var origins = ["top","right","bottom","left","center"];
 
 var imgURL = "madmax.jpg";
-// var imgURL = "http://imgur.com/Xu8bLuV"; //madmax
 
 var selectedOutline = "circle";
 var selectedAnimation = animations[0];
@@ -36,16 +34,20 @@ var starterImages = [
 
 $(document).ready(function(){
 
+  checkRemix();
+
   $(".upload-gif").on("click",function(){
     uploadGif();
     return false;
   });
 
-  //Checks if this is a remix by looking for an ID, and loads if necessary
-  checkRemix();
-
-  //Builds the image picker
-  //buildPicker();
+  $(".picker-pick").on("click",function(){
+    var newImage = $(".image-by-url input").val();
+    if(newImage.length > 0 && newImage != imgURL){
+      changeImage(newImage);
+    }
+    return false;
+  });
 
   $(window).on("keypress",function(e){
     if(e.keyCode == 98) {
@@ -89,7 +91,6 @@ $(document).ready(function(){
   $(".shape-ui [outline="+selectedOutline+"]").addClass("selected-outline");
   $(".animation-ui [animation="+selectedAnimation+"]").addClass("selected-outline");
 
-  //Prep name UI
   $(".imageURL").text(imgURL);
 
   $(".change").on("click",function(){
@@ -99,7 +100,7 @@ $(document).ready(function(){
 
   $(".pick").on("click",function(){
     $(".image-source").toggleClass("collapsed");
-    var newImage = $("input").val();
+    var newImage = $(".image-source input").val();
     if(newImage.length > 0 && newImage != imgURL){
       changeImage(newImage);
     }
@@ -307,6 +308,7 @@ function makeShapeEditable(shape){
 // Changes the animation of a shape when you click it
 function clickShape(target){
     var shape = $(target);
+    console.log(shape.attr("animation"),shape.attr("outline"));
 
     var outline = shape.attr("outline");
 
@@ -325,8 +327,9 @@ function clickShape(target){
         checkSendToBack();
     }
 
-    $(".animation-ui").find("[animation=" + shape.attr("animation") + "]").addClass("selected-outline");
-    $(".shape-ui").find("[outline=" + shape.attr("outline") + "]").addClass("selected-outline");
+
+    // $(".animation-ui").find("[animation=" + shape.attr("animation") + "]").addClass("selected-outline");
+    // $(".shape-ui").find("[outline=" + shape.attr("outline") + "]").addClass("selected-outline");
   }
 
 
@@ -383,45 +386,58 @@ function checkRemix(){
     getImage(faceID);
     $(".ftu-on").removeClass("ftu-on");
   } else {
-    changeImage(imgURL);
+
+    getStarters();
+    // changeImage(imgURL);
     checkShareUI();
   }
 }
 
-function buildPicker(){
+function getStarters(){
+  var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
+  var count = 0;
+  firebase.orderByChild("likes").limitToLast(15).once("value", function(snapshot) {
 
-  for(var i = 0;i < starterImages.length; i++) {
-    var imageChoice = $("<div class='image-option'></div>");
-    imageChoice.css("background-image","url("+starterImages[i]+")");
-    imageChoice.attr("url",starterImages[i]);
-    $(".image-picker").append(imageChoice);
-    imageChoice.on("click",function(){
-      changeImage($(this).attr("url"));
-    });
+  // firebase.orderByChild("likes").startAt(1).limitToLast(15).once("value", function(snapshot) {
+    buildPicker(snapshot.val());
+  });
+}
+
+function buildPicker(images){
+  var added = [];
+  for(var key in images){
+    var image = images[key];
+    // don't add the same image option twice
+    if(added.indexOf(image.imageURL) < 0 ) {
+      var imageChoice = $("<div class='image-option'></div>");
+      imageChoice.append("<img src='"+image.imageURL+"' />");
+      imageChoice.attr("url",image.imageURL);
+      added.push(image.imageURL);
+      console.log(image.likes);
+      $(".image-picker .image-options").append(imageChoice);
+      imageChoice.on("click",function(){
+        changeImage($(this).attr("url"));
+      });
+    }
   }
 }
+
 function getDataUri(url, callback) {
-    var image = new Image();
-    image.crossOrigin = "anonymous";
-
-    image.onload = function () {
-        var canvas = document.createElement('canvas');
-        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
-
-        canvas.getContext('2d').drawImage(this, 0, 0);
-
-        // Get raw image data
-        // callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
-        // ... or get as Data URI
-        callback(canvas.toDataURL('image/png'));
-    };
-    image.src = url;
+  var image = new Image();
+  image.crossOrigin = "anonymous";
+  image.onload = function () {
+      var canvas = document.createElement('canvas');
+      canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+      canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+      canvas.getContext('2d').drawImage(this, 0, 0);
+      callback(canvas.toDataURL('image/png'));
+  };
+  image.src = url;
 }
 
 var gif;
-var totalFrames = 16; //16
-var blobber;
+var totalFrames = 16;
+var blobber; //come on!
 
 function makeGIF(){
 

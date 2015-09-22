@@ -6,8 +6,7 @@ function getImages() {
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
   var count = 0;
 
-  // firebase.orderByChild("height").equalTo(240).once("value", function(snapshot) {
-  firebase.orderByChild("savedAt").limitToLast(100).once("value", function(snapshot) {
+  firebase.orderByChild("likes").limitToLast(100).once("value", function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       var id = childSnapshot.key();
       var childData = childSnapshot.val();
@@ -28,6 +27,7 @@ function likeImage(id,heart){
   var liked = JSON.parse(localStorage.getItem("liked")) || [];
 
   var likedAlready = true;
+
   if(liked.indexOf(id) < 0){
     likedAlready = false;
   }
@@ -80,8 +80,9 @@ function buildImageGallery(face,id){
 
   if(liked.indexOf(id) > -1){
     likeLink.addClass("active");
-    likeLink.find(".count").text(face.likes || 0);
   }
+
+  likeLink.find(".count").text(face.likes || 0);
 
   newImageWrapper.append(likeLink);
 
@@ -100,7 +101,7 @@ function buildImageGallery(face,id){
 
   img.on("load",function(){
 
-    var ratio = 200 / img.height();
+    var ratio = 250 / img.height();
     newImage.width(img.width()).height(img.height());
     newImageWrapper.width(img.width() * ratio).height(img.height() * ratio);
     newImage.removeClass("image-loading");
