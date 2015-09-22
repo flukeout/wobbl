@@ -396,29 +396,22 @@ function checkRemix(){
 function getStarters(){
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
   var count = 0;
-  firebase.orderByChild("likes").limitToLast(15).once("value", function(snapshot) {
-  // firebase.orderByChild("likes").startAt(1).limitToLast(15).once("value", function(snapshot) {
-    buildPicker(snapshot.val());
-  });
-}
-
-function buildPicker(images){
   var added = [];
-  for(var key in images){
-    var image = images[key];
-    // don't add the same image option twice
-    if(added.indexOf(image.imageURL) < 0 ) {
-      var imageChoice = $("<div class='image-option'></div>");
-      imageChoice.append("<img src='"+image.imageURL+"' />");
-      imageChoice.attr("url",image.imageURL);
-      added.push(image.imageURL);
-      console.log(image.likes);
-      $(".image-picker .image-options").append(imageChoice);
-      imageChoice.on("click",function(){
-        changeImage($(this).attr("url"));
-      });
-    }
-  }
+  firebase.orderByChild("likes").limitToLast(15).once("value", function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+     var image = childSnapshot.val();
+     if(added.indexOf(image.imageURL) < 0 ) {
+       var imageChoice = $("<div class='image-option'></div>");
+       imageChoice.append("<img src='"+image.imageURL+"' />");
+       imageChoice.attr("url",image.imageURL);
+       added.push(image.imageURL);
+       $(".image-picker .image-options").prepend(imageChoice);
+       imageChoice.on("click",function(){
+         changeImage($(this).attr("url"));
+       });
+      }
+    });
+  });
 }
 
 function getDataUri(url, callback) {
