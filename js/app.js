@@ -121,7 +121,7 @@ $(document).ready(function(){
 
   //Check where the click happened to see if we need to deselect a selected shape
   $("body").on("mousedown",function(e){
-    var allowedClicks = ["outline","shape"];
+    var allowedClicks = ["outline","shape","ui-resizable-handle"];
     var allowed = false;
     for(var i = 0; i < allowedClicks.length; i++){
       if($(e.target).hasClass(allowedClicks[i])){
