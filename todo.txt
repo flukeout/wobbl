@@ -1,7 +1,3 @@
-THE BIG README
-
-
-
 FUNCTIONS
 
 endShape() - finishes creating the shape after dragging
@@ -10,30 +6,25 @@ testIfGiffable() - checks to see if we can make a CORS request and make a GIF
 savePic() - saves the picture
 checkSendToBack() - checks if hte link to sending to back should be shown
 
-FANCY SHIZ
-* be able to offset the animations so they don't all run exactly the same
-
 QUESTIONS
 * Should clicking from the gallery just go to the Remix view right away?
 
-GOOD WOBBLES TO REMAKE
-*
-
 ENHANCEMENTS
 * Add a favicon
+* Make sure it renders in mobile
+  * Animation
+  * Position
 
 TODO
 * Try not to show duplicates side by side in the gallery if they're the same
 * Make it so that when the gallery is loading, the images don't start out tiny until they load
   (makes it kind of jarring when the happens.
 * Fix animations in Safari
-* Fix image sizes in firefox, they're not resizing in the gallery
 * add @flukeout twitter handle to the app
 
 BAD UX
 * It's really hard to grab the resize handle on large wobbling elements since it moves around
 * Didn't see the "send to back" feature
-* Want to click off of the shape to deselect it
 
 REFACTOR
 * Less mixin for all of the animation styles
@@ -44,6 +35,7 @@ BUGS
 
 FEATURES
 * Rotation of shapes <- big one...
+* be able to offset the animations so they don't all run exactly the same
 
 HOUSEKEEPING
 * Add a readme to the github repo

@@ -2,6 +2,13 @@ var environment;
 var isRemix = false;
 checkEnvironment();
 
+//Handles import of the Beta Banner - and will eventually do other content
+$(document).ready(function(){
+  var content = document.querySelector('link[rel="import"]').import;
+  var el = content.querySelector('.beta-banner');
+  $("body").append($(el).clone());
+});
+
 //Changes the image being edited or viewed
 function changeImage(image){
   $(".image-picker").hide();
@@ -17,16 +24,12 @@ function changeImage(image){
     $(".image").removeClass("image-loading");
     $(".image").css("background-image","url("+image+")");
     $(".image-source input").val(image);
-
     if(environment == "local"){
       testIfGiffable();
     }
-
     $(".gif").attr("src",image);
-
     img.remove();
   });
-
 
   $(".shape").remove();
 }
@@ -164,7 +167,6 @@ function getParameterByName(name) {
     results = regex.exec(location.search);
   return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-
 
 
 function getFaceURL(id,type){
