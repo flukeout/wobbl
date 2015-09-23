@@ -4,9 +4,9 @@ checkEnvironment();
 
 //Handles import of the Beta Banner - and will eventually do other content
 $(document).ready(function(){
-  var content = document.querySelector('link[rel="import"]').import;
-  var el = content.querySelector('.beta-banner');
-  $("body").append($(el).clone());
+  // var content = document.querySelector('link[rel="import"]').import;
+  // var el = content.querySelector('.beta-banner');
+  // $("body").append($(el).clone());
 });
 
 //Changes the image being edited or viewed

@@ -106,9 +106,9 @@ $(document).ready(function(){
     }
   });
 
-  $("body").on("click",function(e){
-    var clicked = e.target;
-  });
+  // $("body").on("click",function(e){
+  //   var clicked = e.target;
+  // });
 
   $(".outline").on("click",function(e){
       $(this).closest(".options-ui").find(".selected-outline").removeClass("selected-outline");
@@ -120,10 +120,9 @@ $(document).ready(function(){
   });
 
   //Check where the click happened to see if we need to deselect a selected shape
-  $("body").on("click",function(e){
+  $("body").on("mousedown",function(e){
     var allowedClicks = ["outline","shape"];
     var allowed = false;
-
     for(var i = 0; i < allowedClicks.length; i++){
       if($(e.target).hasClass(allowedClicks[i])){
         allowed = true;
@@ -133,7 +132,6 @@ $(document).ready(function(){
       deselectShape();
     }
   });
-
 
   //Starts a shape
   $(".image").on("mousedown",function(e){
@@ -150,6 +148,7 @@ $(document).ready(function(){
       shape.attr("outline",selectedOutline);
       $(".image").append(shape);
       updateShape();
+      e.stopPropagation();
     }
   });
 
@@ -282,6 +281,8 @@ function endShape(){
 
     checkShareUI();
     checkSendToBack();
+
+    shape.addClass("selected");
 }
 
 function makeShapeEditable(shape){
@@ -385,14 +386,13 @@ function savePic(){
     facesRef.child(id).set(savedPic);
 
     if(environment == "local") {
-        var baseURL = "http://localhost:8080/";
+      var baseURL = "http://localhost:8080/";
     } else {
-        var baseURL = "http://flukeout.github.io/wobbl/";
+      var baseURL = "http://flukeout.github.io/wobbl/";
     }
 
     var link = baseURL + "view.html?id=" + id;
     $(".share-link").attr("href", link).text(link).show();
-
 }
 
 function checkRemix(){
@@ -408,7 +408,8 @@ function checkRemix(){
 }
 
 function getStarters(){
-  $(".image-picker").show();
+  // $(".image-picker").show();  <- for some reason this doesn't work
+  $(".image-picker").css("display","block");
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
   var count = 0;
   var added = [];
