@@ -1,14 +1,5 @@
 THE BIG README
 
-BUGS
-* Fix the animation UI so that when you select a shape, it shows the right pivot point
-* If you change the image ot what it already is, don't clear the shapes
-
-FEATURES
-* Rotation of shapes <- big one...
-
-HOUSEKEEPING
-* Add a readme to the github repo
 
 
 FUNCTIONS
@@ -28,9 +19,10 @@ QUESTIONS
 GOOD WOBBLES TO REMAKE
 *
 
+ENHANCEMENTS
+* Add a favicon
+
 TODO
-
-
 * Try not to show duplicates side by side in the gallery if they're the same
 * Make it so that when the gallery is loading, the images don't start out tiny until they load
   (makes it kind of jarring when the happens.
@@ -38,5 +30,20 @@ TODO
 * Fix image sizes in firefox, they're not resizing in the gallery
 * add @flukeout twitter handle to the app
 
+BAD UX
+* It's really hard to grab the resize handle on large wobbling elements since it moves around
+* Didn't see the "send to back" feature
+* Want to click off of the shape to deselect it
+
 REFACTOR
 * Less mixin for all of the animation styles
+
+BUGS
+* Fix the animation UI so that when you select a shape, it shows the right pivot point
+* If you change the image ot what it already is, don't clear the shapes
+
+FEATURES
+* Rotation of shapes <- big one...
+
+HOUSEKEEPING
+* Add a readme to the github repo

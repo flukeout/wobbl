@@ -119,6 +119,22 @@ $(document).ready(function(){
       clickShape(e.target);
   });
 
+  //Check where the click happened to see if we need to deselect a selected shape
+  $("body").on("click",function(e){
+    var allowedClicks = ["outline","shape"];
+    var allowed = false;
+
+    for(var i = 0; i < allowedClicks.length; i++){
+      if($(e.target).hasClass(allowedClicks[i])){
+        allowed = true;
+      }
+    }
+    if(allowed == false){
+      deselectShape();
+    }
+  });
+
+
   //Starts a shape
   $(".image").on("mousedown",function(e){
     if ($(e.target).hasClass("image")){
@@ -386,14 +402,13 @@ function checkRemix(){
     getImage(faceID);
     $(".ftu-on").removeClass("ftu-on");
   } else {
-
     getStarters();
-    // changeImage(imgURL);
     checkShareUI();
   }
 }
 
 function getStarters(){
+  $(".image-picker").show();
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
   var count = 0;
   var added = [];
