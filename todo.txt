@@ -26,16 +26,21 @@ BAD UX
 * It's really hard to grab the resize handle on large wobbling elements since it moves around
 * Didn't see the "send to back" feature
 
+MOBILE MODE
+
+
 REFACTOR
 * Less mixin for all of the animation styles
 
 BUGS
 * Fix the animation UI so that when you select a shape, it shows the right pivot point
 * If you change the image ot what it already is, don't clear the shapes
+* If the image doesn't load, fail gracefully
 
 FEATURES
 * Rotation of shapes <- big one...
 * be able to offset the animations so they don't all run exactly the same
+
 
 HOUSEKEEPING
 * Add a readme to the github repo
