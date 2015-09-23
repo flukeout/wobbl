@@ -103,6 +103,7 @@ function removeShape(shape){
   setTimeout(function(){
     shape.remove();
     checkShareUI();
+    checkSendToBack();
   },300);
 }
 

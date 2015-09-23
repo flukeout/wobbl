@@ -116,9 +116,9 @@ function buildImageGallery(face,id){
   newImage.attr("href",getFaceURL(id,"view"));
   newImage.css("background-image","url("+face.imageURL+")");
 
-  var img = $("<img/>");
+  var img = $("<img class='temporary' />");
   img.attr("src",face.imageURL);
-  console.log(face.imageURL);
+
 
   $("body").append(img);
 
