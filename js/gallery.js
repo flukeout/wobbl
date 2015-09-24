@@ -1,7 +1,6 @@
 var galleryType;
 
 $(document).ready(function(){
-
   galleryType = getParameterByName('show') || "best";
   $(".nav-selected").removeClass(".nav-selected");
   if(galleryType == "best"){
@@ -10,7 +9,6 @@ $(document).ready(function(){
     $(".nav .newest-wobbles").addClass("nav-selected");
   }
   getImages();
-
 });
 
 
@@ -119,14 +117,26 @@ function buildImageGallery(face,id){
   var img = $("<img class='temporary' />");
   img.attr("src",face.imageURL);
 
-
   $("body").append(img);
 
   img.on("load",function(){
 
-    var ratio = 250 / img.height();
-    newImage.width(img.width()).height(img.height());
-    newImageWrapper.width(img.width() * ratio).height(img.height() * ratio);
+    var imageWidth = img.width();
+    var imageHeight = img.height();
+    // we have to pretend the image width is 800  if it's greater'
+
+    var newRatio = 1;
+
+    if(img.width() > 800) {
+      var newRatio = 1 / (img.width() / maxWidth);
+      imageWidth = img.width() * newRatio;
+      imageHeight = img.height() * newRatio;
+    }
+
+    var ratio = 250 / imageHeight;
+
+    newImage.width(imageWidth).height(imageHeight);
+    newImageWrapper.width(imageWidth * ratio).height(imageHeight * ratio);
     newImage.removeClass("image-loading");
 
     if(environment == "local"){
@@ -135,31 +145,39 @@ function buildImageGallery(face,id){
 
     img.remove();
     newImage.css("transform","scale("+ratio+")");
-  });
+    newImage.css("background-size",imageWidth + "px " + imageHeight + "px");
 
-  if(!face.shapes){
-    face.shapes = [];
-  }
-
-  for(var i = 0; i < face.shapes.length; i++){
-    var shapeData = face.shapes[i];
-    var newShape = $("<div class='shape'></div>");
-    newShape.attr("animation",shapeData.animation);
-    newShape.attr("outline",shapeData.outline);
-    newShape.css("left",shapeData.left);
-    newShape.css("top",shapeData.top);
-    newShape.css("width",shapeData.width);
-    newShape.css("height",shapeData.height);
-    newShape.css("background-image","url("+face.imageURL+")");
-    newShape.css("z-index",shapeData.z || 9999);
-
-    if(shapeData.origin){
-      newShape.attr("origin",shapeData.origin);
+    if(!face.shapes){
+      face.shapes = [];
     }
 
-    newImage.append(newShape);
-    updateBackground(newShape,shapeData.top,shapeData.left);
-  }
+    for(var i = 0; i < face.shapes.length; i++){
+      var shapeData = face.shapes[i];
+      var newShape = $("<div class='shape'></div>");
+      newShape.attr("animation",shapeData.animation);
+      newShape.attr("outline",shapeData.outline);
+      newShape.css("left",shapeData.left);
+      newShape.css("top",shapeData.top);
+      newShape.css("width",shapeData.width);
+      newShape.css("height",shapeData.height);
+      newShape.css("background-image","url("+face.imageURL+")");
+      var backgroundSize = imageWidth + "px " + imageHeight + "px";
+      newShape.css("background-size",backgroundSize);
+      newShape.css("background-image","url("+face.imageURL+")");
+
+      newShape.css("z-index",shapeData.z || 9999);
+
+      if(shapeData.origin){
+        newShape.attr("origin",shapeData.origin);
+      }
+
+      newImage.append(newShape);
+      updateBackground(newShape,shapeData.top,shapeData.left);
+    }
+
+  }); // end of image loading
+
+
 
   newImageWrapper.append(newImage);
 

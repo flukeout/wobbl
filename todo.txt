@@ -1,3 +1,6 @@
+TODO NEXT
+*
+
 FUNCTIONS
 
 endShape() - finishes creating the shape after dragging
@@ -20,11 +23,11 @@ TODO
 * Make it so that when the gallery is loading, the images don't start out tiny until they load
   (makes it kind of jarring when the happens.
 * Fix animations in Safari
-* add @flukeout twitter handle to the app
 
 BAD UX
 * It's really hard to grab the resize handle on large wobbling elements since it moves around
 * Didn't see the "send to back" feature
+* Limit the image size, probably set a max width / height and scale that shiz.
 
 MOBILE MODE
 
@@ -44,3 +47,4 @@ FEATURES
 
 HOUSEKEEPING
 * Add a readme to the github repo
+

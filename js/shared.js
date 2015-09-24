@@ -1,6 +1,9 @@
 var environment;
 var isRemix = false;
 checkEnvironment();
+var maxWidth = 800;
+var maxheight = 600;
+var imageSizeRatio = 1;
 
 //Handles import of the Beta Banner - and will eventually do other content
 $(document).ready(function(){
@@ -10,7 +13,8 @@ $(document).ready(function(){
 });
 
 //Changes the image being edited or viewed
-function changeImage(image){
+function changeImage(image,hello){
+
   $(".image-picker").hide();
   var img = $("<img class='test-image' />");
   img.attr("src",image);
@@ -18,17 +22,29 @@ function changeImage(image){
   $("body").append(img);
 
   img.on("load",function(){
-    $(".image").width(img.width()).height(img.height());
-    imageWidth = img.width();
-    imageHeight = img.height();
+
+    var ratio = 1;
+    if(img.width() > maxWidth){
+      ratio = 1 / (img.width() / maxWidth);
+      imageSizeRatio = ratio;
+      imageWidth = img.width() * ratio;
+      imageHeight = img.height() * ratio;
+    }
+
+    imageWidth = img.width() * ratio;
+    imageHeight = img.height() * ratio;
+
+    $(".image").width(imageWidth).height(imageHeight);
     $(".image").removeClass("image-loading");
     $(".image").css("background-image","url("+image+")");
+    $(".image").css("background-size", imageWidth + "px " +imageHeight + "px" );
     $(".image-source input").val(image);
     if(environment == "local"){
       testIfGiffable();
     }
     $(".gif").attr("src",image);
     img.remove();
+    hello();
   });
 
   $(".shape").remove();
@@ -119,44 +135,57 @@ function getImage(id) {
   });
 }
 
+
+// Add shapes, build shapes, make shapes
 function buildImage(face){
 
-  changeImage(face.imageURL);
+  changeImage(face.imageURL,function(){
 
-  if(!face.shapes){
-    face.shapes = [];
-  }
-
-  for(var i = 0; i < face.shapes.length; i++){
-    var shapeData = face.shapes[i];
-    var newShape = $("<div class='shape'></div>");
-    newShape.attr("animation",shapeData.animation);
-    newShape.attr("outline",shapeData.outline);
-    newShape.css("left",shapeData.left);
-    newShape.css("top",shapeData.top);
-    newShape.css("width",shapeData.width);
-    newShape.css("height",shapeData.height);
-
-    if(shapeData.z){
-      newShape.css("z-index",shapeData.z);
-      newShape.attr("z",shapeData.z);
-    }
-    newShape.css("background-image","url("+face.imageURL+")");
-
-    if(shapeData.origin){
-      newShape.attr("origin",shapeData.origin);
+    if(!face.shapes){
+      face.shapes = [];
     }
 
-    $(".imageURL").text(face.imageURL);
+    for(var i = 0; i < face.shapes.length; i++){
+      var shapeData = face.shapes[i];
+      var newShape = $("<div class='shape'></div>");
+      newShape.attr("animation",shapeData.animation);
+      newShape.attr("outline",shapeData.outline);
+      newShape.css("left",shapeData.left);
+      newShape.css("top",shapeData.top);
+      newShape.css("width",shapeData.width);
+      newShape.css("height",shapeData.height);
 
-    $(".image").append(newShape);
-    updateBackground(newShape,shapeData.top,shapeData.left);
+      if(shapeData.z){
+        newShape.css("z-index",shapeData.z);
+        newShape.attr("z",shapeData.z);
+      }
+      newShape.css("background-image","url("+face.imageURL+")");
+      var backgroundSize = imageWidth + "px " + imageHeight + "px";
+      console.log(backgroundSize);
+      newShape.css("background-size", backgroundSize);
+      newShape.css("background-position", "top left");
 
-    if(isRemix){
-      makeShapeEditable(newShape);
+      if(shapeData.origin){
+        newShape.attr("origin",shapeData.origin);
+      }
+
+      $(".imageURL").text(face.imageURL);
+
+      $(".image").append(newShape);
+      updateBackground(newShape,shapeData.top,shapeData.left);
+
+      if(isRemix){
+        makeShapeEditable(newShape);
+      }
+
     }
 
-  }
+
+  });
+
+  //It doesn't know the ratio yet at this point because the image hasn't loaded potentially.
+
+
 
   checkShareUI();
 }

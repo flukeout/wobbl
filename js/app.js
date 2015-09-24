@@ -106,17 +106,13 @@ $(document).ready(function(){
     }
   });
 
-  // $("body").on("click",function(e){
-  //   var clicked = e.target;
-  // });
-
   $(".outline").on("click",function(e){
-      $(this).closest(".options-ui").find(".selected-outline").removeClass("selected-outline");
-      $(e.target).addClass("selected-outline");
+    $(this).closest(".options-ui").find(".selected-outline").removeClass("selected-outline");
+    $(e.target).addClass("selected-outline");
   });
 
   $(".image").on("click",".shape",function(e){
-      clickShape(e.target);
+    clickShape(e.target);
   });
 
   //Check where the click happened to see if we need to deselect a selected shape
@@ -258,6 +254,7 @@ function updateShape(){
 function endShape(){
     drawing = false;
     shape.css("background-image","url("+imgURL+")");
+    shape.css("background-size", imageWidth + "px " + imageHeight + "px");
     var offsetX = 0 - shapeStartX;
     var offsetY = 0 - shapeStartY;
 
@@ -324,30 +321,27 @@ function makeShapeEditable(shape){
 
 // Changes the animation of a shape when you click it
 function clickShape(target){
-    var shape = $(target);
+  var shape = $(target);
+  var outline = shape.attr("outline");
 
+  $(".selected-outline").removeClass("selected-outline");
 
-    var outline = shape.attr("outline");
-
-    $(".selected-outline").removeClass("selected-outline");
-
-    if(shape.hasClass("selected")) {
-        var index = animations.indexOf(shape.attr("animation"));
-        index++;
-        if(index > animations.length -1 ){
-            index = 0;
-        }
-        shape.attr("animation",animations[index]);
-    } else {
-        $(".selected").removeClass("selected");
-        shape.addClass("selected");
-        checkSendToBack();
+  if(shape.hasClass("selected")) {
+    var index = animations.indexOf(shape.attr("animation"));
+    index++;
+    if(index > animations.length -1 ){
+        index = 0;
     }
-
-
-    $(".animation-ui").find("[animation=" + shape.attr("animation") + "]").addClass("selected-outline");
-    $(".shape-ui").find("[outline=" + shape.attr("outline") + "]").addClass("selected-outline");
+    shape.attr("animation",animations[index]);
+  } else {
+    $(".selected").removeClass("selected");
+    shape.addClass("selected");
+    checkSendToBack();
   }
+
+  $(".animation-ui").find("[animation=" + shape.attr("animation") + "]").addClass("selected-outline");
+  $(".shape-ui").find("[outline=" + shape.attr("outline") + "]").addClass("selected-outline");
+}
 
 
 var firebase = new Firebase("https://facejam.firebaseio.com/");
@@ -541,6 +535,7 @@ function makeFrame(frame){
 
     onrendered: function(canvas) {
       gif.addFrame(canvas, {delay: 33.3});
+      // gif.addFrame(canvas, {delay: 250});
       if(frame <= totalFrames) {
         frame++;
         makeFrame(frame);
