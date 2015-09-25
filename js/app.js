@@ -137,7 +137,6 @@ $(document).ready(function(){
       startY = e.offsetY;
       drawing = true;
       $(".ftu-on").removeClass("ftu-on");
-
       shape = $("<div class='shape selected'><div class='lock'></div></div>");
       shape.css("z-index",9999);
       shape.attr("z",9999);
@@ -148,10 +147,11 @@ $(document).ready(function(){
     }
   });
 
-  $(".image").on("mousemove",function(e){
+  $("body").on("mousemove",function(e){
     var imagePosition = $(".image").offset();
     endX = e.pageX - imagePosition.left;
     endY = e.pageY - imagePosition.top;
+    e.preventDefault();
     if(drawing == true){
       updateShape(shape);
     }
@@ -402,26 +402,46 @@ function checkRemix(){
 }
 
 function getStarters(){
-  // $(".image-picker").show();  <- for some reason this doesn't work
   $(".image-picker").css("display","block");
   var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
   var count = 0;
   var added = [];
-  firebase.orderByChild("likes").limitToLast(15).once("value", function(snapshot) {
+  var randomImages = [];
+  firebase.orderByChild("savedAt").limitToLast(50).once("value", function(snapshot) {
+
     snapshot.forEach(function(childSnapshot) {
      var image = childSnapshot.val();
      if(added.indexOf(image.imageURL) < 0 ) {
-       var imageChoice = $("<div class='image-option'></div>");
-       imageChoice.append("<img src='"+image.imageURL+"' />");
-       imageChoice.attr("url",image.imageURL);
+       randomImages.push(image);
        added.push(image.imageURL);
-       $(".image-picker .image-options").prepend(imageChoice);
-       imageChoice.on("click",function(){
-         changeImage($(this).attr("url"));
-       });
+
       }
     });
+
+    var maxStarters = 12;
+    if(randomImages.length < maxStarters) {
+      maxStarters = randomImages.length;
+    }
+    for(var i = 0; i < maxStarters; i++){
+      var random = Math.floor(Math.random() * randomImages.length);
+      addStarter(randomImages[random]);
+    }
+
   });
+}
+
+function addStarter(image){
+
+  var imageChoice = $("<div class='image-option'></div>");
+  imageChoice.append("<img src='"+image.imageURL+"' />");
+  imageChoice.attr("url",image.imageURL);
+
+  $(".image-picker .image-options").prepend(imageChoice);
+
+  imageChoice.on("click",function(){
+    changeImage($(this).attr("url"));
+  });
+
 }
 
 function getDataUri(url, callback) {
