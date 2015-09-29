@@ -692,3 +692,34 @@
         transform: rotate(360deg);
     }
 }
+
+[animation=groovin] {
+   transform-origin: bottom;
+   animation-name: groovin;
+   animation-duration: 1s;
+   animation-iteration-count: infinite;
+   animation-timing-function: linear;
+ }
+
+ @keyframes groovin {
+  0% {
+    transform:   skew(4deg,0deg) scaleY(1.02);
+    animation-timing-function: ease-in;
+  }
+  10% {
+    transform:  skew(1deg,0deg) scaleY(.95) ;
+    animation-timing-function: ease-out;
+  }
+  50% {
+    transform:  skew(-4deg,0deg) scaleY(1.02);
+    animation-timing-function: ease-in;
+  }
+  60% {
+    transform:  skew(-1deg,0deg) scaleY(.95) ;
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: skew(4deg,0deg) scaleY(1.02);
+    animation-timing-function: ease-in;
+  }
+}

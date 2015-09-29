@@ -4,7 +4,7 @@ var drawingThreshold = 10;
 var startX, startY,endX, endY, shape;
 var shapeStartX, shapeStartY, shapeEndY, shapeEndX;
 var imageWidth, imageHeight;
-var animations = ["vibrate","mouth","wobble","googly","eyebrows","swing","none"]; //spin, breathe
+var animations = ["vibrate","mouth","wobble","groovin","googly","eyebrows","swing","none"]; //spin, breathe
 
 //These specify possible origins for the animations that need them
 var animationSpec = {
