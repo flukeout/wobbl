@@ -13,7 +13,7 @@ $(document).ready(function(){
 
 
 function getImages() {
-  var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
+  var firebase = new Firebase("https://facejam-4bc7d.firebaseio.com/faces/");
   var count = 0;
 
   if(galleryType == "best") {
@@ -36,12 +36,12 @@ function getImages() {
 }
 
 function deleteImage(id){
-  var firebase = new Firebase("https://facejam.firebaseio.com/faces/"+id);
+  var firebase = new Firebase("https://facejam-4bc7d.firebaseio.com/faces/"+id);
   firebase.remove();
 }
 
 function likeImage(id,heart){
-  var firebase = new Firebase("https://facejam.firebaseio.com/faces/"+id);
+  var firebase = new Firebase("https://facejam-4bc7d.firebaseio.com/faces/"+id);
 
   //Get your likes
   var liked = JSON.parse(localStorage.getItem("liked")) || [];

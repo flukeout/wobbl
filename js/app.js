@@ -344,7 +344,7 @@ function clickShape(target){
 }
 
 
-var firebase = new Firebase("https://facejam.firebaseio.com/");
+var firebase = new Firebase("https://facejam-4bc7d.firebaseio.com/");
 
 function savePic(){
     var savedPic = {};
@@ -403,7 +403,7 @@ function checkRemix(){
 
 function getStarters(){
   $(".image-picker").css("display","block");
-  var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
+  var firebase = new Firebase("https://facejam-4bc7d.firebaseio.com/faces/");
   var count = 0;
   var added = [];
   var randomImages = [];

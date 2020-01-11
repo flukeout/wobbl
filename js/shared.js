@@ -127,7 +127,7 @@ function removeShape(shape){
 }
 
 function getImage(id) {
-  var firebase = new Firebase("https://facejam.firebaseio.com/faces/");
+  var firebase = new Firebase("https://facejam-4bc7d.firebaseio.com/faces/");
   firebase.once("value", function(snapshot) {
     var nameSnapshot = snapshot.child(id);
     var face = nameSnapshot.val();
